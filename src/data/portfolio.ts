@@ -195,7 +195,7 @@ export const contactData: ContactData = {
 };
 
 export const footerData: FooterData = {
-  mainLine: "Santi — Software Development Lead & Full-Stack Engineer",
+  mainLine: "Santiago Cajal — Software Development Lead & Full-Stack Engineer",
   secondaryLine: "Building secure, scalable, and thoughtful digital products.",
 };
 

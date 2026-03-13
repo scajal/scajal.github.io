@@ -45,9 +45,10 @@ export function Navbar() {
         <nav className="flex h-12 md:h-14 w-full items-center justify-between shrink-0">
           <Link
             href="/"
-            className="text-lg font-semibold tracking-tight text-[var(--text)] hover:text-[var(--accent)] transition-colors"
+            className="flex items-center justify-center h-9 w-9 rounded-full border border-[var(--border)] bg-[var(--background)] text-xs font-semibold uppercase tracking-[0.12em] text-[var(--text)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors"
+            aria-label="Home"
           >
-            Santi
+            SC
           </Link>
 
           <div className="hidden md:flex items-center gap-1">

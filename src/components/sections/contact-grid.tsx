@@ -31,33 +31,35 @@ export function ContactGrid() {
         <GridTile
           gridClassName="col-span-4 md:col-span-4 lg:col-span-12 border-b border-[var(--border)]"
         >
-        <div className="space-y-6">
-          <div className="flex flex-col gap-4">
-            {contactData.methods.map((method) => {
-              const Icon =
-                iconMap[method.icon as keyof typeof iconMap] ?? Mail;
-              return (
-                <a
-                  key={method.label}
-                  href={method.href}
-                  target={method.href.startsWith("http") ? "_blank" : undefined}
-                  rel={
-                    method.href.startsWith("http")
-                      ? "noopener noreferrer"
-                      : undefined
-                  }
-                  className="flex items-center gap-3 text-[var(--text)] hover:text-[var(--accent)] transition-colors"
-                >
-                  <Icon className="w-5 h-5 shrink-0" />
-                  <span className="font-medium">{method.label}</span>
-                </a>
-              );
-            })}
+          <div className="space-y-6" aria-label="Contact methods">
+            <div className="flex flex-col gap-4">
+              {contactData.methods.map((method) => {
+                const Icon =
+                  iconMap[method.icon as keyof typeof iconMap] ?? Mail;
+                return (
+                  <a
+                    key={method.label}
+                    href={method.href}
+                    target={
+                      method.href.startsWith("http") ? "_blank" : undefined
+                    }
+                    rel={
+                      method.href.startsWith("http")
+                        ? "noopener noreferrer"
+                        : undefined
+                    }
+                    className="flex items-center gap-3 text-[var(--text)] hover:text-[var(--accent)] transition-colors"
+                  >
+                    <Icon className="w-5 h-5 shrink-0" aria-hidden="true" />
+                    <span className="font-medium">{method.label}</span>
+                  </a>
+                );
+              })}
+            </div>
+            <p className="text-sm text-[var(--text-muted)]">
+              {contactData.closingLine}
+            </p>
           </div>
-          <p className="text-sm text-[var(--text-muted)]">
-            {contactData.closingLine}
-          </p>
-        </div>
         </GridTile>
       </FullWidthRow>
     </>

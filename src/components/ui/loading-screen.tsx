@@ -20,9 +20,6 @@ export function LoadingScreen({ exiting, className }: LoadingScreenProps) {
       aria-live="polite"
     >
       <div className="flex flex-col items-center gap-8">
-        <p className="text-lg font-semibold tracking-tight text-[var(--text)]">
-          Santi
-        </p>
         <div
           className="h-8 w-8 rounded-full border-2 border-[var(--border)] border-t-[var(--accent)] animate-spin"
           aria-hidden

@@ -14,10 +14,55 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl = "https://santiagocajal.dev";
+
 export const metadata: Metadata = {
-  title: "Santi — Software Development Lead & Full-Stack Engineer",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "Santiago Cajal — Software Development Lead & Full-Stack Engineer",
+    template: "%s | Santiago Cajal",
+  },
   description:
-    "Building secure, scalable platforms across fintech, crypto, and IoT. 8+ years of experience in full-stack development and technical leadership.",
+    "Software development lead & full‑stack engineer building secure, scalable platforms across fintech, crypto, and IoT.",
+  applicationName: "Santiago Cajal — Software Development Lead",
+  keywords: [
+    "software engineer",
+    "software development lead",
+    "full-stack engineer",
+    "tech lead",
+    "React",
+    "TypeScript",
+    "Next.js",
+    "Node.js",
+    "fintech",
+    "crypto",
+    "IoT",
+  ],
+  authors: [{ name: "Santiago Cajal", url: siteUrl }],
+  creator: "Santiago Cajal",
+  publisher: "Santiago Cajal",
+  openGraph: {
+    type: "website",
+    url: siteUrl,
+    title: "Santiago Cajal — Software Development Lead & Full-Stack Engineer",
+    description:
+      "Software development lead & full‑stack engineer focused on secure, scalable systems across fintech, crypto, and IoT.",
+    siteName: "Santiago Cajal",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Santiago Cajal — Software Development Lead & Full-Stack Engineer",
+    description:
+      "Full‑stack engineer and tech lead building secure, scalable products in fintech, crypto, and IoT.",
+    creator: "@santiagocajal",
+  },
+  alternates: {
+    canonical: siteUrl,
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({

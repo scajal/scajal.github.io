@@ -29,7 +29,7 @@ const personSchema = {
 const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: "Santi — Software Development Lead & Full-Stack Engineer",
+  name: "Santiago Cajal — Software Development Lead & Full-Stack Engineer",
   url: siteUrl,
   description:
     "Building secure, scalable platforms across fintech, crypto, and IoT. 8+ years of experience in full-stack development and technical leadership.",

@@ -41,7 +41,7 @@ export function HeroGrid({ onAboutOpen }: HeroGridProps) {
             <h1 className="text-2xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-[var(--text)] leading-[1.1]">
               {heroData.headline}
             </h1>
-            <p className="text-lg text-[var(--text-muted)]">
+            <p className="text-lg text-[var(--text-muted)]" aria-label="Summary of expertise and focus areas">
               {heroData.subheadline}
             </p>
             <p className="text-base text-[var(--text-muted)] leading-relaxed max-w-[60ch]">

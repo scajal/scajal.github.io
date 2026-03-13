@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Santi — Software Development Lead & Full-Stack Engineer",
+  title: "Santiago Cajal — Software Development Lead & Full-Stack Engineer",
   description:
     "Building secure, scalable platforms across fintech, crypto, and IoT. 8+ years of experience in full-stack development and technical leadership.",
 };
