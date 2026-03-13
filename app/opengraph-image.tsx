@@ -1,6 +1,12 @@
-import type { MetadataRoute } from "next";
-
-export default function Image(): MetadataRoute.Image {
+export default function OpenGraphImage(): {
+  alt: string;
+  size: {
+    width: number;
+    height: number;
+  };
+  contentType: string;
+  url: string;
+} {
   return {
     alt: "Santiago Cajal — Software Development Lead & Full-Stack Engineer",
     size: {
@@ -11,4 +17,3 @@ export default function Image(): MetadataRoute.Image {
     url: "/og-image.png",
   };
 }
-
