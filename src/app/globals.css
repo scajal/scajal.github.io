@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  /* Light mode - blanco puro, sin verde */
+  /* Light mode - blanco puro, acento azul (sin verde) */
   --background: #ffffff;
   --surface: #ffffff;
   --surface-elevated: #fafafa;
@@ -75,31 +75,17 @@
   background-position: 0 0, 0 0;
 }
 
-/* Full-width horizontal grid lines (extends to sides) */
-.grid-lines-horizontal {
-  background-image: linear-gradient(
-    to bottom,
-    var(--border) 1px,
-    transparent 1px
-  );
-  background-size: 100% 120px;
-}
-
-/* Side columns: same horizontal lines + solid background */
-.grid-lines-sides {
-  background-color: var(--background);
-  background-image: linear-gradient(
-    to bottom,
-    var(--border) 1px,
-    transparent 1px
-  );
-  background-size: 100% 120px;
-}
+/* Optional: subtle grid lines for structural feel - enable if desired */
+/* .grid-structural {
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 8.333% 40px, 100% 40px;
+} */
 
 /* Base styles */
 html {
   scroll-behavior: smooth;
-  overflow-x: hidden;
 }
 
 body {
@@ -108,7 +94,6 @@ body {
   font-family: var(--font-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
 }
 
 /* Scroll margin for anchored navigation */
@@ -120,76 +105,4 @@ body {
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
-}
-
-/* Hide scrollbar (e.g. navbar) */
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-
-/* Hide scrollbar (e.g. navbar) */
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-
-/* Ocultar scrollbar (navbar u otros) */
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-
-/* Ocultar scrollbar (p. ej. en navbar) */
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-
-/* Ocultar scrollbar (navbar y otros) */
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-
-/* Ocultar scrollbar (p. ej. en navbar) */
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-
-/* Ocultar scrollbar (p. ej. en navbar) manteniendo scroll */
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-
-/* Ocultar scrollbar (p. ej. en navbar) */
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
 }

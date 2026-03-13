@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
-import { AppLoadGate } from "@/components/layout/app-load-gate";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -36,7 +35,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange={false}
         >
-          <AppLoadGate>{children}</AppLoadGate>
+          {children}
         </ThemeProvider>
       </body>
     </html>

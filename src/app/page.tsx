@@ -2,6 +2,7 @@
 
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
+import { SiteGrid } from "@/components/layout/site-grid";
 import { HeroGrid } from "@/components/sections/hero-grid";
 import { CredibilityGrid } from "@/components/sections/credibility-grid";
 import { ProjectsGrid } from "@/components/sections/projects-grid";
@@ -11,23 +12,15 @@ import { ContactGrid } from "@/components/sections/contact-grid";
 export default function Home() {
   return (
     <>
-      <main className="grid grid-cols-1 md:grid-cols-[1fr_minmax(0,64rem)_1fr] auto-rows-auto w-full min-w-0 min-h-screen bg-[var(--background)] overflow-x-hidden">
-        <Navbar />
-        <div style={{ gridColumn: "1 / -1" }}>
+      <Navbar />
+      <main className="pt-20 md:pt-24">
+        <SiteGrid>
           <HeroGrid />
-        </div>
-        <div style={{ gridColumn: "1 / -1" }}>
           <CredibilityGrid />
-        </div>
-        <div style={{ gridColumn: "1 / -1" }}>
           <ProjectsGrid />
-        </div>
-        <div style={{ gridColumn: "1 / -1" }}>
           <SkillsGrid />
-        </div>
-        <div style={{ gridColumn: "1 / -1" }}>
           <ContactGrid />
-        </div>
+        </SiteGrid>
       </main>
       <Footer />
     </>
