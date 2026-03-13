@@ -66,7 +66,7 @@ export function Navbar() {
             <ThemeToggle />
             <Link
               href="#contact"
-              className="hidden md:inline-flex items-center justify-center px-4 py-2 text-sm font-medium bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)] rounded-md transition-colors"
+              className="hidden md:inline-flex items-center justify-center px-4 py-2 text-sm font-medium bg-[var(--accent)] btn-on-accent hover:bg-[var(--accent-hover)] rounded-md transition-colors"
             >
               Let&apos;s Talk
             </Link>
@@ -91,7 +91,7 @@ export function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25, ease: [0.32, 0.72, 0, 1] }}
-            className="md:hidden pt-4 pb-2 border-t border-[var(--border)] mt-2"
+            className="md:hidden pt-4 pb-2 border-t border-[var(--border)] mt-2 overflow-y-auto scrollbar-hide max-h-[calc(100dvh-3rem)]"
           >
             <div className="flex flex-col gap-1">
               {navLinks.map((link) => (
@@ -107,7 +107,7 @@ export function Navbar() {
               <Link
                 href="#contact"
                 onClick={() => setMobileOpen(false)}
-                className="px-4 py-3 text-sm font-medium bg-[var(--accent)] text-white rounded-md mt-2"
+                className="px-4 py-3 text-sm font-medium bg-[var(--accent)] btn-on-accent rounded-md mt-2"
               >
                 Let&apos;s Talk
               </Link>

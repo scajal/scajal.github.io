@@ -86,7 +86,7 @@ export function ExpandableGridPopup({
               <button
                 type="button"
                 onClick={onClose}
-                className="p-2 -m-2 rounded-md text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--border-subtle)] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 shrink-0"
+                className="p-2 -m-2 rounded-md text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--border-subtle)] transition-colors focus:outline-none shrink-0"
                 aria-label="Close"
               >
                 <X className="w-5 h-5" />

@@ -12,6 +12,7 @@
   --accent: #2563eb;
   --accent-hover: #1d4ed8;
   --accent-muted: #93c5fd;
+  --on-accent: #ffffff;
   --grid-line: rgba(0, 0, 0, 0.06);
   --popup-backdrop: rgba(0, 0, 0, 0.4);
   --popup-surface: #ffffff;
@@ -20,22 +21,23 @@
 }
 
 .dark {
-  /* Dark mode - mismo blanco, acento azul */
-  --background: #ffffff;
-  --surface: #ffffff;
-  --surface-elevated: #fafafa;
-  --text: #171717;
-  --text-muted: #525252;
-  --border: #e5e5e5;
-  --border-subtle: #f5f5f5;
-  --accent: #2563eb;
-  --accent-hover: #1d4ed8;
-  --accent-muted: #93c5fd;
+  /* Dark mode - fondo oscuro, texto claro, azules más claros para legibilidad */
+  --background: #0a0a0a;
+  --surface: #171717;
+  --surface-elevated: #262626;
+  --text: #fafafa;
+  --text-muted: #a3a3a3;
+  --border: #404040;
+  --border-subtle: #262626;
+  --accent: #bfdbfe;
+  --accent-hover: #dbeafe;
+  --accent-muted: #eff6ff;
+  --on-accent: #0f172a;
   --grid-line: rgba(255, 255, 255, 0.06);
-  --popup-backdrop: rgba(0, 0, 0, 0.7);
-  --popup-surface: #ffffff;
-  --shadow-subtle: 0 1px 2px rgba(0, 0, 0, 0.2);
-  --shadow-elevated: 0 4px 24px rgba(0, 0, 0, 0.4);
+  --popup-backdrop: rgba(0, 0, 0, 0.8);
+  --popup-surface: #171717;
+  --shadow-subtle: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-elevated: 0 4px 24px rgba(0, 0, 0, 0.5);
 }
 
 @theme inline {
@@ -96,6 +98,12 @@
   background-size: 100% 120px;
 }
 
+/* Primary button text: white in light, dark in dark (accessibility) */
+.btn-on-accent,
+a.btn-on-accent {
+  color: var(--on-accent) !important;
+}
+
 /* Base styles */
 html {
   scroll-behavior: smooth;
@@ -116,80 +124,13 @@ body {
   scroll-margin-top: 5rem;
 }
 
-/* Focus visible for accessibility */
-:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-}
-
-/* Hide scrollbar (e.g. navbar) */
+/* Ocultar scrollbar (p. ej. navbar) manteniendo scroll */
 .scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
 }
 .scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-
-/* Hide scrollbar (e.g. navbar) */
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-
-/* Ocultar scrollbar (navbar u otros) */
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-
-/* Ocultar scrollbar (p. ej. en navbar) */
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-
-/* Ocultar scrollbar (navbar y otros) */
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-
-/* Ocultar scrollbar (p. ej. en navbar) */
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-
-/* Ocultar scrollbar (p. ej. en navbar) manteniendo scroll */
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-
-/* Ocultar scrollbar (p. ej. en navbar) */
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
+  display: none !important;
+  width: 0;
+  height: 0;
 }

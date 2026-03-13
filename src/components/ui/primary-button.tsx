@@ -15,11 +15,11 @@ export function PrimaryButton({
   className,
 }: PrimaryButtonProps) {
   const baseClass =
-    "inline-flex items-center justify-center px-5 py-2.5 text-sm font-medium transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 active:scale-[0.99]";
+    "inline-flex items-center justify-center rounded-md px-5 py-2.5 text-sm font-medium transition-all duration-200 focus:outline-none active:scale-[0.99]";
 
   const variantClass =
     variant === "primary"
-      ? "bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)]"
+      ? "bg-[var(--accent)] btn-on-accent hover:bg-[var(--accent-hover)]"
       : "border border-[var(--border)] text-[var(--text)] hover:bg-[var(--border-subtle)]";
 
   return (
