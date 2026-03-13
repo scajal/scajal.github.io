@@ -18,7 +18,6 @@ export function ContactGrid() {
       <FullWidthRow>
         <GridTile
           gridClassName="col-span-4 md:col-span-8 lg:col-span-12 border-b border-r border-[var(--border)]"
-          id="contact"
         >
           <SectionHeading
             eyebrow={contactData.eyebrow}

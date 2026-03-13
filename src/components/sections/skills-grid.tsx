@@ -18,7 +18,6 @@ export function SkillsGrid() {
       <FullWidthRow>
         <GridTile
           gridClassName="col-span-4 md:col-span-8 lg:col-span-12 border-b border-r border-[var(--border)]"
-          id="skills"
         >
           <SectionHeading
             eyebrow={skillSummaryData.eyebrow}
