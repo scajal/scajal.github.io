@@ -48,6 +48,14 @@ export const metadata: Metadata = {
     description:
       "Software development lead & full‑stack engineer focused on secure, scalable systems across fintech, crypto, and IoT.",
     siteName: "Santiago Cajal",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Santiago Cajal — Software Development Lead & Full-Stack Engineer",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
