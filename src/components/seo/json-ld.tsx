@@ -1,5 +1,4 @@
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://scajal.github.io";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://scajal.github.io";
 
 const personSchema = {
   "@context": "https://schema.org",
@@ -10,11 +9,8 @@ const personSchema = {
   jobTitle: "Software Development Lead",
   description:
     "Full-Stack Engineer building secure, scalable platforms across fintech, crypto, and IoT. 8+ years of experience in technical leadership and product development.",
-  sameAs: [
-    "https://github.com/scajal",
-    "https://linkedin.com/in/santiagocajal",
-  ],
-  email: "hello@santiagocajal.dev",
+  sameAs: ["https://github.com/scajal", "https://linkedin.com/in/scajal"],
+  email: "s.cajalvarela@gmail.com",
   knowsAbout: [
     "Full-Stack Development",
     "Fintech",

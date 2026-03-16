@@ -27,10 +27,10 @@ export const heroData: HeroData = {
     { label: "GitHub", href: "https://github.com/scajal", icon: "github" },
     {
       label: "LinkedIn",
-      href: "https://linkedin.com/in/santiagocajal",
+      href: "https://linkedin.com/in/scajal",
       icon: "linkedin",
     },
-    { label: "Email", href: "mailto:hello@santiagocajal.dev", icon: "mail" },
+    { label: "Email", href: "mailto:s.cajalvarela@gmail.com", icon: "mail" },
   ],
 };
 
@@ -183,10 +183,10 @@ export const contactData: ContactData = {
   paragraph:
     "I'm open to conversations about senior engineering, technical leadership, and product-focused development roles, especially in fintech, platforms, and technically ambitious products.",
   methods: [
-    { label: "Email", href: "mailto:hello@santiagocajal.dev", icon: "mail" },
+    { label: "Email", href: "mailto:s.cajalvarela@gmail.com", icon: "mail" },
     {
       label: "LinkedIn",
-      href: "https://linkedin.com/in/santiagocajal",
+      href: "https://linkedin.com/in/scajal",
       icon: "linkedin",
     },
     { label: "GitHub", href: "https://github.com/scajal", icon: "github" },
