@@ -16,9 +16,7 @@ export function ContactGrid() {
   return (
     <>
       <FullWidthRow>
-        <GridTile
-          gridClassName="col-span-4 md:col-span-8 lg:col-span-12 border-b border-r border-[var(--border)]"
-        >
+        <GridTile gridClassName="col-span-4 md:col-span-8 lg:col-span-12 border-b border-r border-[var(--border)]">
           <SectionHeading
             eyebrow={contactData.eyebrow}
             title={contactData.title}
@@ -28,9 +26,7 @@ export function ContactGrid() {
       </FullWidthRow>
 
       <FullWidthRow>
-        <GridTile
-          gridClassName="col-span-4 md:col-span-4 lg:col-span-12 border-b border-[var(--border)]"
-        >
+        <GridTile gridClassName="col-span-4 md:col-span-4 lg:col-span-12 border-b border-[var(--border)]">
           <div className="space-y-6" aria-label="Contact methods">
             <div className="flex flex-col gap-4">
               {contactData.methods.map((method) => {
