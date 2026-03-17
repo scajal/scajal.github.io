@@ -1,3 +1,8 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { staggerContainer, staggerItem, contentRevealViewport } from "@/lib/motion";
+
 interface SectionHeadingProps {
   eyebrow?: string;
   title: string;
@@ -12,20 +17,35 @@ export function SectionHeading({
   className = "",
 }: SectionHeadingProps) {
   return (
-    <div className={className}>
+    <motion.div
+      variants={staggerContainer}
+      initial="hidden"
+      whileInView="visible"
+      viewport={contentRevealViewport}
+      className={className}
+    >
       {eyebrow && (
-        <p className="text-sm font-medium tracking-wider uppercase text-[var(--accent)] mb-2">
+        <motion.p
+          variants={staggerItem}
+          className="text-sm font-medium tracking-wider uppercase text-[var(--accent)] mb-2"
+        >
           {eyebrow}
-        </p>
+        </motion.p>
       )}
-      <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-[var(--text)] mb-3">
+      <motion.h2
+        variants={staggerItem}
+        className="text-2xl md:text-3xl font-semibold tracking-tight text-[var(--text)] mb-3"
+      >
         {title}
-      </h2>
+      </motion.h2>
       {intro && (
-        <p className="text-base text-[var(--text-muted)] leading-relaxed max-w-[65ch]">
+        <motion.p
+          variants={staggerItem}
+          className="text-base text-[var(--text-muted)] leading-relaxed max-w-[65ch]"
+        >
           {intro}
-        </p>
+        </motion.p>
       )}
-    </div>
+    </motion.div>
   );
 }

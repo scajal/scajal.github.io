@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { GridTile } from "@/components/ui/grid-tile";
 import { Badge } from "@/components/ui/badge";
-import { popupTransition } from "@/lib/motion";
+import { popupTransition, staggerItem, contentRevealViewport } from "@/lib/motion";
 import type { ProjectSummary } from "@/types/portfolio";
 
 interface ProjectTileProps {
@@ -23,13 +23,17 @@ export function ProjectTile({ project, isExpanded, onClick }: ProjectTileProps) 
         <motion.div
           layoutId={`popup-project-${project.id}`}
           transition={popupTransition}
+          variants={staggerItem}
+          initial="hidden"
+          whileInView="visible"
+          viewport={contentRevealViewport}
           className="flex h-full min-w-0 flex-col justify-between text-left"
         >
           <div className="min-h-0 min-w-0 flex-1">
             <p className="text-sm font-medium text-[var(--accent)] mb-1">
               {project.category}
             </p>
-            <h3 className="text-xl font-semibold text-[var(--text)] mb-2">
+            <h3 className="text-xl font-semibold text-[var(--text)] mb-2 tracking-tight">
               {project.title}
             </h3>
             <p className="text-sm text-[var(--text-muted)] leading-relaxed break-words">
@@ -48,9 +52,9 @@ export function ProjectTile({ project, isExpanded, onClick }: ProjectTileProps) 
           </div>
         </motion.div>
       ) : (
-        <div className="flex h-full flex-col justify-between text-left opacity-60">
+        <div className="flex h-full flex-col justify-between text-left opacity-40">
           <div>
-            <h3 className="text-xl font-semibold text-[var(--text)]">
+            <h3 className="text-xl font-semibold text-[var(--text)] tracking-tight">
               {project.title}
             </h3>
           </div>

@@ -25,10 +25,11 @@ export const GridTile = forwardRef<HTMLDivElement, GridTileProps>(
       "min-w-0 p-6 md:p-8 flex flex-col justify-center min-h-0",
       "border-b border-r border-[var(--border)] border-dashed",
       "bg-[var(--surface)]",
-      "transition-colors duration-200",
-      "hover:bg-[var(--surface-elevated)]",
-      Component === "button" && "cursor-pointer text-left w-full",
-      Component === "a" && "cursor-pointer no-underline",
+      Component === "button" &&
+        "cursor-pointer text-left w-full transition-colors duration-200 hover:bg-[var(--surface-elevated)] active:bg-[var(--border-subtle)]",
+      Component === "div" && "transition-colors duration-200",
+      Component === "a" &&
+        "cursor-pointer no-underline transition-colors duration-200 hover:bg-[var(--surface-elevated)]",
       gridClassName,
       className
     );

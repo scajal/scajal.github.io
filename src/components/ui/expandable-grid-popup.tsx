@@ -48,16 +48,19 @@ export function ExpandableGridPopup({
     <AnimatePresence>
       {isOpen && (
         <>
+          {/* Backdrop */}
           <motion.div
             key="backdrop"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.28, ease: [0.32, 0.72, 0, 1] }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             className="fixed inset-0 z-40 bg-[var(--popup-backdrop)] backdrop-blur-sm"
             onClick={onClose}
             aria-hidden="true"
           />
+
+          {/* Panel */}
           <motion.div
             key="popup"
             layoutId={layoutId}
@@ -67,13 +70,14 @@ export function ExpandableGridPopup({
               "fixed inset-4 md:inset-8 lg:inset-12 xl:inset-16 z-50",
               "flex flex-col overflow-hidden",
               "bg-[var(--popup-surface)] border border-[var(--border)]",
-              "shadow-[var(--shadow-elevated)]",
+              "shadow-[var(--shadow-popup)]",
               className
             )}
             role="dialog"
             aria-modal="true"
             aria-labelledby={title ? "popup-title" : undefined}
           >
+            {/* Header */}
             <div className="flex items-center justify-between gap-4 p-6 md:p-8 border-b border-[var(--border)] shrink-0">
               {title && (
                 <h2
@@ -83,15 +87,20 @@ export function ExpandableGridPopup({
                   {title}
                 </h2>
               )}
-              <button
+              <motion.button
                 type="button"
                 onClick={onClose}
-                className="p-2 -m-2 rounded-md text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--border-subtle)] transition-colors focus:outline-none shrink-0"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                transition={{ duration: 0.15 }}
+                className="p-2 -m-2 rounded-md text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--surface-elevated)] transition-colors duration-200 focus:outline-none shrink-0"
                 aria-label="Close"
               >
                 <X className="w-5 h-5" />
-              </button>
+              </motion.button>
             </div>
+
+            {/* Content */}
             <div className="flex-1 overflow-y-auto p-6 md:p-8">
               {children}
             </div>

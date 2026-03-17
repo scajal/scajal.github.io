@@ -1,43 +1,45 @@
 @import "tailwindcss";
 
 :root {
-  /* Light mode - blanco puro, acento azul (sin verde) */
-  --background: #ffffff;
+  /* Light mode */
+  --background: #fafafa;
   --surface: #ffffff;
-  --surface-elevated: #fafafa;
-  --text: #171717;
-  --text-muted: #525252;
-  --border: #e5e5e5;
-  --border-subtle: #f5f5f5;
+  --surface-elevated: #f4f4f5;
+  --text: #0f0f0f;
+  --text-muted: #52525b;
+  --border: #e4e4e7;
+  --border-subtle: #f4f4f5;
   --accent: #2563eb;
   --accent-hover: #1d4ed8;
   --accent-muted: #93c5fd;
   --on-accent: #ffffff;
-  --grid-line: rgba(0, 0, 0, 0.06);
-  --popup-backdrop: rgba(0, 0, 0, 0.4);
+  --grid-line: rgba(0, 0, 0, 0.05);
+  --popup-backdrop: rgba(0, 0, 0, 0.45);
   --popup-surface: #ffffff;
-  --shadow-subtle: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-elevated: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-elevated: 0 8px 24px rgba(0, 0, 0, 0.1);
+  --shadow-popup: 0 24px 64px rgba(0, 0, 0, 0.14);
 }
 
 .dark {
-  /* Dark mode - fondo oscuro, texto claro, azules más claros para legibilidad */
-  --background: #0a0a0a;
-  --surface: #171717;
-  --surface-elevated: #262626;
-  --text: #fafafa;
-  --text-muted: #a3a3a3;
-  --border: #404040;
-  --border-subtle: #262626;
-  --accent: #bfdbfe;
-  --accent-hover: #dbeafe;
+  /* Dark mode — deep blue-tinted black for premium richness */
+  --background: #09090f;
+  --surface: #101018;
+  --surface-elevated: #18181f;
+  --text: #f4f4f5;
+  --text-muted: #a1a1aa;
+  --border: #27272f;
+  --border-subtle: #18181f;
+  --accent: #93c5fd;
+  --accent-hover: #bfdbfe;
   --accent-muted: #eff6ff;
   --on-accent: #0f172a;
-  --grid-line: rgba(255, 255, 255, 0.06);
-  --popup-backdrop: rgba(0, 0, 0, 0.8);
-  --popup-surface: #171717;
-  --shadow-subtle: 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-elevated: 0 4px 24px rgba(0, 0, 0, 0.5);
+  --grid-line: rgba(255, 255, 255, 0.04);
+  --popup-backdrop: rgba(0, 0, 0, 0.75);
+  --popup-surface: #101018;
+  --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-elevated: 0 8px 32px rgba(0, 0, 0, 0.6);
+  --shadow-popup: 0 24px 80px rgba(0, 0, 0, 0.8);
 }
 
 @theme inline {
@@ -52,7 +54,7 @@
   --font-mono: var(--font-geist-mono);
 }
 
-/* Grid system - full-screen structural feel */
+/* Grid system */
 .grid-canvas {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -67,23 +69,6 @@
     grid-template-columns: repeat(4, 1fr);
   }
 }
-
-/* Subtle grid lines overlay - optional structural feel */
-.grid-lines {
-  background-image: 
-    linear-gradient(var(--grid-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-  background-size: calc(100% / 12) 1px, 1px calc(100% / 24);
-  background-position: 0 0, 0 0;
-}
-
-/* Optional: subtle grid lines for structural feel - enable if desired */
-/* .grid-structural {
-  background-image:
-    linear-gradient(var(--grid-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-  background-size: 8.333% 40px, 100% 40px;
-} */
 
 /* Base styles */
 html {
@@ -103,3 +88,32 @@ body {
   scroll-margin-top: 5rem;
 }
 
+/* Custom scrollbar — minimal & on-brand */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Hide scrollbar utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* GPU acceleration hint for animated elements */
+.will-animate {
+  will-change: transform, opacity;
+}

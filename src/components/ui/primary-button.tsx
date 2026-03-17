@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface PrimaryButtonProps {
@@ -15,19 +18,22 @@ export function PrimaryButton({
   className,
 }: PrimaryButtonProps) {
   const baseClass =
-    "inline-flex items-center justify-center rounded-md px-5 py-2.5 text-sm font-medium transition-all duration-200 focus:outline-none active:scale-[0.99]";
+    "inline-flex items-center justify-center rounded-md px-5 py-2.5 text-sm font-medium transition-colors duration-200 focus:outline-none";
 
   const variantClass =
     variant === "primary"
       ? "bg-[var(--accent)] btn-on-accent hover:bg-[var(--accent-hover)]"
-      : "border border-[var(--border)] text-[var(--text)] hover:bg-[var(--border-subtle)]";
+      : "border border-[var(--border)] text-[var(--text)] hover:bg-[var(--surface-elevated)]";
 
   return (
-    <Link
-      href={href}
-      className={cn(baseClass, variantClass, className)}
+    <motion.div
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
     >
-      {children}
-    </Link>
+      <Link href={href} className={cn(baseClass, variantClass, className)}>
+        {children}
+      </Link>
+    </motion.div>
   );
 }
