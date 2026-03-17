@@ -35,12 +35,18 @@ export function ExpandableGridPopup({
     if (isOpen) {
       document.addEventListener("keydown", handleEscape);
       document.body.style.overflow = "hidden";
+      window.dispatchEvent(new CustomEvent("popup:open"));
     }
     return () => {
       document.removeEventListener("keydown", handleEscape);
       document.body.style.overflow = "";
     };
   }, [isOpen, handleEscape]);
+
+  // Notify on close
+  useEffect(() => {
+    if (!isOpen) window.dispatchEvent(new CustomEvent("popup:close"));
+  }, [isOpen]);
 
   if (typeof document === "undefined") return null;
 
