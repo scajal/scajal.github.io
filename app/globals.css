@@ -7,9 +7,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
+  --font-sans: var(--font-switzer);
   --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
+  --font-heading: var(--font-switzer);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -72,7 +72,7 @@
   --chart-3: oklch(0.648 0.2 131.684);
   --chart-4: oklch(0.532 0.157 131.589);
   --chart-5: oklch(0.453 0.124 130.933);
-  --radius: 0.875rem;
+  --radius: 0.25rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.141 0.005 285.823);
   --sidebar-primary: oklch(0.648 0.2 131.684);
@@ -126,5 +126,203 @@
   }
   html {
     @apply font-sans;
+  }
+}
+/* ─────────────────────────────────────────────────────────────
+   Design layer — scajal.dev
+   Lime is rationed: focus rings, the hero full stop, and link
+   underlines on hover. Nothing else.
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  /* The preset lime is unreadable on white, so light mode uses a
+     darker version of the same hue. Two stops, because one value
+     cannot be both legible on the background and distinct from the
+     near-black text:
+       --ink-accent       graphics + large type  (3.4:1 on white)
+       --ink-accent-text  small text             (4.3:1 on white) */
+  --ink-accent: oklch(0.62 0.2 135);
+  --ink-accent-text: oklch(0.56 0.2 135);
+  --rule: var(--border);
+  --gutter: clamp(1.25rem, 5vw, 4rem);
+  --measure: 62ch;
+}
+
+.dark {
+  /* On near-black both stops clear 12:1, so one value serves both. */
+  --ink-accent: oklch(0.82 0.22 130);
+  --ink-accent-text: oklch(0.82 0.22 130);
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-synthesis-weight: none;
+  }
+
+  ::selection {
+    background: var(--ink-accent-text);
+    color: var(--background);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ink-accent);
+    outline-offset: 3px;
+    border-radius: 1px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+/* Layout ---------------------------------------------------- */
+
+.shell {
+  width: 100%;
+  max-width: 78rem;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  border-top: 1px solid var(--rule);
+  padding-block: clamp(3.5rem, 8vw, 7.5rem);
+}
+
+/* Swiss two-column: label pinned left, content right. */
+.section-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.75rem;
+}
+
+@media (min-width: 62rem) {
+  .section-grid {
+    grid-template-columns: 11rem minmax(0, 1fr);
+    gap: 4.5rem;
+  }
+}
+
+/* Type ------------------------------------------------------ */
+
+.eyebrow {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.6875rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--muted-foreground);
+}
+
+.display {
+  font-size: clamp(2.375rem, 6vw, 5.5rem);
+  line-height: 0.97;
+  letter-spacing: -0.045em;
+  font-weight: 560;
+  text-wrap: balance;
+}
+
+.section-title {
+  font-size: clamp(1.5rem, 2.6vw, 2.25rem);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  font-weight: 520;
+  text-wrap: balance;
+}
+
+.prose-body {
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--muted-foreground);
+  max-width: var(--measure);
+  text-wrap: pretty;
+}
+
+.mono {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.8125rem;
+  letter-spacing: 0.01em;
+}
+
+/* Links ----------------------------------------------------- */
+
+.link {
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, currentColor 30%, transparent);
+  text-underline-offset: 0.25em;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-color 180ms ease, color 180ms ease;
+}
+
+.link:hover {
+  text-decoration-color: var(--ink-accent);
+}
+
+/* Signature: the headline is set in a variable font, so the
+   entrance animates the weight axis itself rather than fading in. */
+
+.kinetic-line {
+  display: block;
+  opacity: 0;
+  animation: kinetic-in 1000ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes kinetic-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.28em);
+    filter: blur(10px);
+    font-variation-settings: "wght" 180;
+    letter-spacing: -0.005em;
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+    font-variation-settings: "wght" 560;
+    letter-spacing: -0.045em;
+  }
+}
+
+.fade-up {
+  opacity: 0;
+  animation: fade-up-in 700ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fade-up-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kinetic-line,
+  .fade-up {
+    opacity: 1;
+    animation: none;
+    transform: none;
+    filter: none;
+  }
+  .kinetic-line {
+    font-variation-settings: "wght" 560;
   }
 }

@@ -1,0 +1,236 @@
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+import { AnimatedValue } from "@/components/animated-value";
+import { Section } from "@/components/section";
+import { SiteChrome } from "@/components/site-chrome";
+import { BUILT_LOCALES, getContent, type BuiltLocale } from "@/content";
+import { PROFILE, SITE_URL } from "@/lib/site";
+
+export function generateStaticParams() {
+  return BUILT_LOCALES.map((locale) => ({ locale }));
+}
+
+export default async function Home({ params }: PageProps<"/[locale]">) {
+  const { locale } = await params;
+  const content = getContent(locale as BuiltLocale);
+  const { hero, work, ai, past, contact, footer, nav } = content;
+
+  const personLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: PROFILE.name,
+    url: `${SITE_URL}/${locale}`,
+    jobTitle: "Tech Lead & Full-Stack Engineer",
+    email: `mailto:${PROFILE.email}`,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Montevideo",
+      addressCountry: "UY",
+    },
+    alumniOf: {
+      "@type": "CollegeOrUniversity",
+      name: "Universidad de la Empresa",
+    },
+    knowsAbout: [
+      "Laravel",
+      "PHP",
+      "React",
+      "TypeScript",
+      "Next.js",
+      "Software architecture",
+      "Fintech",
+      "Cryptocurrency platforms",
+      "LoRaWAN",
+    ],
+    sameAs: [PROFILE.linkedin, PROFILE.github],
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personLd) }}
+      />
+
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-background focus:px-4 focus:py-2 focus:text-sm"
+      >
+        {nav.skipToContent}
+      </a>
+
+      <SiteChrome locale={locale} themeLabel={nav.themeToggle} />
+
+      <main id="main" className="flex-1">
+        {/* Hero ------------------------------------------------ */}
+        <div className="shell pb-[clamp(3.5rem,8vw,7rem)] pt-[clamp(3rem,9vw,7.5rem)]">
+          <h1 className="display max-w-[15ch]">
+            {hero.headline.map((line, i) => (
+              <span
+                key={line}
+                className="kinetic-line"
+                style={{ animationDelay: `${180 + i * 95}ms` }}
+              >
+                {line}
+                {i === hero.headline.length - 1 && (
+                  <span style={{ color: "var(--ink-accent)" }}>
+                    {hero.headlineAccent}
+                  </span>
+                )}
+              </span>
+            ))}
+          </h1>
+
+          <p
+            className="fade-up prose-body mt-8"
+            style={{ animationDelay: `${180 + hero.headline.length * 95}ms` }}
+          >
+            {hero.subhead}
+          </p>
+
+          <dl
+            className="fade-up mt-12 flex flex-col gap-2 border-t border-[var(--rule)] pt-6 sm:flex-row sm:gap-10"
+            style={{ animationDelay: `${280 + hero.headline.length * 95}ms` }}
+          >
+            <dt className="eyebrow sm:pt-1">{hero.currentlyLabel}</dt>
+            {hero.currently.map((item) => (
+              <dd key={item.org} className="flex flex-col">
+                <span className="tracking-tight">{item.org}</span>
+                <span className="mono text-muted-foreground">{item.role}</span>
+              </dd>
+            ))}
+          </dl>
+        </div>
+
+        {/* Selected work --------------------------------------- */}
+        <Section id="work" eyebrow={work.eyebrow}>
+          <h3 className="section-title">{work.title}</h3>
+          <p className="prose-body mt-5">{work.intro}</p>
+
+          <ul className="mt-12 flex flex-col">
+            {work.items.map((item) => (
+              <li key={item.slug} className="border-t border-[var(--rule)]">
+                <Link
+                  href={`/${locale}/work/${item.slug}`}
+                  className="group grid gap-x-8 gap-y-3 py-8 md:grid-cols-[minmax(0,15rem)_minmax(0,1fr)]"
+                >
+                  <div>
+                    <h4 className="text-xl font-medium tracking-tight">
+                      <span className="link decoration-transparent group-hover:decoration-[var(--ink-accent)]">
+                        {item.name}
+                      </span>
+                      <ArrowUpRight
+                        aria-hidden
+                        className="ml-1 inline size-4 -translate-y-px text-muted-foreground transition-transform duration-200 group-hover:-translate-y-1 group-hover:text-[var(--ink-accent-text)]"
+                      />
+                    </h4>
+                    <p className="mono mt-1 text-muted-foreground/60">
+                      {item.years}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-[clamp(1.75rem,2.6vw,2.25rem)] font-medium leading-none tracking-[-0.04em]">
+                      <AnimatedValue result={item.result} />
+                    </p>
+                    <p className="mono mt-2 text-muted-foreground">
+                      {item.result.label}
+                    </p>
+                    <p className="prose-body mt-5 text-[1rem]">{item.summary}</p>
+                    <ul className="mt-5 flex flex-wrap gap-x-2 gap-y-1.5">
+                      {item.tags.map((tag) => (
+                        <li
+                          key={tag}
+                          className="mono rounded-sm border border-[var(--rule)] px-2 py-0.5 text-[0.6875rem] text-muted-foreground"
+                        >
+                          {tag}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </Section>
+
+        {/* How I work ------------------------------------------ */}
+        <Section id="ai" eyebrow={ai.eyebrow}>
+          <h3 className="section-title max-w-[20ch]">{ai.title}</h3>
+          <div className="mt-6 flex flex-col gap-5">
+            {ai.body.map((paragraph) => (
+              <p key={paragraph.slice(0, 24)} className="prose-body">
+                {paragraph}
+              </p>
+            ))}
+          </div>
+          <dl className="mt-10 grid gap-x-8 gap-y-5 sm:grid-cols-3">
+            {ai.stack.map((row) => (
+              <div key={row.label} className="border-t border-[var(--rule)] pt-4">
+                <dt className="eyebrow">{row.label}</dt>
+                <dd className="mono mt-2 leading-relaxed text-muted-foreground">
+                  {row.items}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </Section>
+
+        {/* Before ---------------------------------------------- */}
+        <Section id="past" eyebrow={past.eyebrow}>
+          <h3 className="section-title">{past.title}</h3>
+          <ul className="mt-10 flex flex-col">
+            {past.roles.map((role) => (
+              <li
+                key={role.org}
+                className="grid gap-x-8 gap-y-1.5 border-t border-[var(--rule)] py-6 first:border-t-0 first:pt-0 md:grid-cols-[7rem_minmax(0,15rem)_minmax(0,1fr)]"
+              >
+                <p className="mono text-muted-foreground/60">{role.period}</p>
+                <div>
+                  <p className="font-medium tracking-tight">{role.org}</p>
+                  <p className="mono mt-1 text-muted-foreground">{role.role}</p>
+                </div>
+                <p className="prose-body text-[1rem]">{role.detail}</p>
+              </li>
+            ))}
+          </ul>
+          <p className="prose-body mt-8 border-t border-[var(--rule)] pt-6 text-[1rem]">
+            {past.education}
+          </p>
+        </Section>
+
+        {/* Contact --------------------------------------------- */}
+        <Section id="contact" eyebrow={contact.eyebrow}>
+          <h3 className="section-title">{contact.title}</h3>
+          <p className="prose-body mt-5">{contact.body}</p>
+          <ul className="mt-10 flex flex-col">
+            {contact.links.map((link) => (
+              <li key={link.label} className="border-t border-[var(--rule)]">
+                <a
+                  href={link.href}
+                  className="group flex items-baseline justify-between gap-6 py-5"
+                  {...(link.href.startsWith("http")
+                    ? { target: "_blank", rel: "noreferrer noopener" }
+                    : {})}
+                >
+                  <span className="text-lg tracking-tight">{link.label}</span>
+                  <span className="mono text-muted-foreground transition-colors group-hover:text-[var(--ink-accent-text)]">
+                    {link.note}
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </Section>
+      </main>
+
+      <footer className="section">
+        <div className="shell flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <p className="mono text-muted-foreground/60">
+            © {new Date().getFullYear()} {PROFILE.name}
+          </p>
+          <p className="mono text-muted-foreground/60">{footer.built}</p>
+        </div>
+      </footer>
+    </>
+  );
+}
