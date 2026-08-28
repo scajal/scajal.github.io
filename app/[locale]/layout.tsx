@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import "../globals.css";
 import { geistMono, switzer, themeScript } from "@/app/fonts";
+import { Analytics } from "@/components/analytics";
 import { SiteChrome } from "@/components/site-chrome";
 import { CSP } from "@/lib/csp";
 import { BUILT_LOCALES, getContent, type BuiltLocale } from "@/content";
@@ -89,6 +90,8 @@ export default async function RootLayout({
         <SiteChrome locale={locale} themeLabel={nav.themeToggle} />
 
         {children}
+
+        <Analytics />
 
         <footer className="section">
           <div className="shell flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">

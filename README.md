@@ -78,13 +78,25 @@ Pages also carry a schema.org `@graph` rather than a flat node: `ProfilePage`
 → `Person` → `ItemList` on the home page, `Article` + `BreadcrumbList` on a
 case study, joined by `@id` so a parser can walk between them.
 
+### Analytics
+
+Google Analytics 4 (`components/analytics.tsx`), loaded through `next/script`
+with `afterInteractive` so measurement never competes with first paint. It
+mounts in the locale layout only — `/` is a noindex redirect that leaves before
+a script can load, and the locale page it lands on counts the visit.
+
+Adding a third party means the CSP has to allow it. If the tag ever stops
+reporting, check `lib/csp.ts` first: a blocked beacon fails silently.
+
 ### Content security policy
 
 GitHub Pages serves no headers, so the policy rides in a `<meta>` tag from
 `lib/csp.ts`. `script-src` has to keep `'unsafe-inline'` — Next inlines a
 different hydration payload on every page, so there is no stable hash set and
 no server to mint a nonce. `base-uri`, `object-src` and `form-action` are still
-locked down, and everything the site loads is same-origin.
+locked down. The Google Analytics hosts are listed per directive rather than
+globally: `googletagmanager` serves the script, `google-analytics` receives the
+beacons, and neither needs to be a frame, a font or a form target.
 
 ### OG images
 
