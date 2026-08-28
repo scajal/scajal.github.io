@@ -85,7 +85,9 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
             <dt className="eyebrow sm:pt-1">{hero.currentlyLabel}</dt>
             {hero.currently.map((item) => (
               <dd key={item.org} className="flex flex-col">
-                <span className="tracking-tight">{item.org}</span>
+                <span className="tracking-tight" translate="no">
+                  {item.org}
+                </span>
                 <span className="mono text-muted-foreground">{item.role}</span>
               </dd>
             ))}
@@ -114,7 +116,7 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
                           {item.name}
                         </span>
                       </h4>
-                      <p className="mono mt-1 text-muted-foreground/60">
+                      <p className="mono mt-1 text-subtle-foreground">
                         {item.years}
                       </p>
                     </div>
@@ -130,11 +132,14 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
                     <p className="mono mt-2 text-muted-foreground">
                       {item.result.label}
                     </p>
-                    <p className="prose-body mt-5 text-[1rem]">{item.summary}</p>
+                    <p className="prose-body mt-5 text-[1rem]">
+                      {item.summary}
+                    </p>
                     <ul className="mt-5 flex flex-wrap gap-x-2 gap-y-1.5">
                       {item.tags.map((tag) => (
                         <li
                           key={tag}
+                          translate="no"
                           className="mono rounded-sm border border-[var(--rule)] px-2 py-0.5 text-[0.6875rem] text-muted-foreground"
                         >
                           {tag}
@@ -152,15 +157,18 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
         <Section id="ai" eyebrow={ai.eyebrow}>
           <h3 className="section-title max-w-[20ch]">{ai.title}</h3>
           <div className="mt-6 flex flex-col gap-5">
-            {ai.body.map((paragraph) => (
-              <p key={paragraph.slice(0, 24)} className="prose-body">
+            {ai.body.map((paragraph, index) => (
+              <p key={index} className="prose-body">
                 {paragraph}
               </p>
             ))}
           </div>
           <dl className="mt-10 grid gap-x-8 gap-y-5 sm:grid-cols-3">
             {ai.stack.map((row) => (
-              <div key={row.label} className="border-t border-[var(--rule)] pt-4">
+              <div
+                key={row.label}
+                className="border-t border-[var(--rule)] pt-4"
+              >
                 <dt className="eyebrow">{row.label}</dt>
                 <dd className="mono mt-2 leading-relaxed text-muted-foreground">
                   {row.items}
@@ -179,7 +187,7 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
                 key={role.org}
                 className="grid gap-x-8 gap-y-1.5 border-t border-[var(--rule)] py-6 first:border-t-0 first:pt-0 md:grid-cols-[7rem_minmax(0,15rem)_minmax(0,1fr)]"
               >
-                <p className="mono text-muted-foreground/60">{role.period}</p>
+                <p className="mono text-subtle-foreground">{role.period}</p>
                 <div>
                   <p className="font-medium tracking-tight">{role.org}</p>
                   <p className="mono mt-1 text-muted-foreground">{role.role}</p>
@@ -217,7 +225,6 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
           </ul>
         </Section>
       </main>
-
     </>
   );
 }

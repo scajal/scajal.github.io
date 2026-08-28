@@ -18,6 +18,7 @@ export function SiteChrome({
     <header className="shell flex items-center justify-between gap-4 py-6">
       <Link
         href={`/${locale}`}
+        translate="no"
         className="mono tracking-tight text-foreground transition-opacity hover:opacity-70"
       >
         scajal<span className="text-muted-foreground">.dev</span>
@@ -31,7 +32,7 @@ export function SiteChrome({
             return (
               <span key={code} className="flex items-center gap-1.5">
                 {i > 0 && (
-                  <span aria-hidden className="text-muted-foreground/40">
+                  <span aria-hidden className="text-subtle-foreground">
                     /
                   </span>
                 )}
@@ -48,7 +49,7 @@ export function SiteChrome({
                     {code}
                   </Link>
                 ) : (
-                  <span className="mono uppercase text-muted-foreground/40">
+                  <span className="mono uppercase text-subtle-foreground">
                     {code}
                   </span>
                 )}

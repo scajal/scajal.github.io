@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 const copy = [
   {
     lang: "en",
-    heading: "This page doesn't exist",
+    heading: "This page doesn’t exist",
     body: "The link is broken or the page has moved.",
     action: "Go to the homepage",
     href: "/en/",

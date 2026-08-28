@@ -33,6 +33,7 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
   --color-muted-foreground: var(--muted-foreground);
+  --color-subtle-foreground: var(--subtle-foreground);
   --color-muted: var(--muted);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-secondary: var(--secondary);
@@ -63,7 +64,7 @@
   --secondary: oklch(0.967 0.001 286.375);
   --secondary-foreground: oklch(0.21 0.006 285.885);
   --muted: oklch(0.967 0.001 286.375);
-  --muted-foreground: oklch(0.552 0.016 285.938);
+  --muted-foreground: oklch(0.5 0.016 285.938);
   --accent: oklch(0.967 0.001 286.375);
   --accent-foreground: oklch(0.21 0.006 285.885);
   --destructive: oklch(0.577 0.245 27.325);
@@ -146,6 +147,9 @@
        --ink-accent-text  small text             (4.3:1 on white) */
   --ink-accent: oklch(0.62 0.2 135);
   --ink-accent-text: oklch(0.56 0.2 135);
+  /* A third text tier for dates and metadata. Dimmer than muted, but
+     still 4.57:1 on white — an opacity modifier landed at 3.33:1. */
+  --subtle-foreground: oklch(0.565 0.015 285.938);
   --rule: var(--border);
   --gutter: clamp(1.25rem, 5vw, 4rem);
   --measure: 62ch;
@@ -155,12 +159,29 @@
   /* On near-black both stops clear 12:1, so one value serves both. */
   --ink-accent: oklch(0.82 0.22 130);
   --ink-accent-text: oklch(0.82 0.22 130);
+  --subtle-foreground: oklch(0.6 0.014 285.938); /* 5.02:1 on the near-black */
 }
 
 @layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  [data-theme="dark"] {
+    color-scheme: dark;
+  }
+
   html {
     -webkit-font-smoothing: antialiased;
     scroll-behavior: smooth;
+    /* No double-tap zoom delay, and no grey flash on tap. */
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Anchor targets shouldn't land flush against the viewport edge. */
+  [id] {
+    scroll-margin-top: 2rem;
   }
 
   body {
@@ -278,22 +299,22 @@
 /* Signature: the headline is set in a variable font, so the
    entrance animates the weight axis itself rather than fading in. */
 
+/* Starts opaque on purpose: the headline is the LCP element, and an
+   opacity-0 start makes the browser withhold the paint until the
+   animation finishes. Weight, tracking and blur carry the effect. */
 .kinetic-line {
   display: block;
-  opacity: 0;
-  animation: kinetic-in 1000ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: kinetic-in 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 @keyframes kinetic-in {
   from {
-    opacity: 0;
-    transform: translateY(0.28em);
-    filter: blur(10px);
+    transform: translateY(0.14em);
+    filter: blur(6px);
     font-variation-settings: "wght" 180;
     letter-spacing: -0.005em;
   }
   to {
-    opacity: 1;
     transform: none;
     filter: blur(0);
     font-variation-settings: "wght" 560;
@@ -341,6 +362,7 @@
     --background: #fff;
     --foreground: #000;
     --muted-foreground: #333;
+    --subtle-foreground: #444;
     --rule: #ccc;
     --ink-accent: #000;
     --ink-accent-text: #000;

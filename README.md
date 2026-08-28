@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# scajal.dev
 
-## Getting Started
+Personal site of Santiago Cajal — Tech Lead and full-stack engineer in Montevideo.
+Static Next.js, bilingual, deployed to GitHub Pages.
 
-First, run the development server:
+**Live:** [scajal.dev](https://scajal.dev)
+
+## Running it
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # static export to ./out
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## How it is put together
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| | |
+|---|---|
+| Framework | Next.js 16 (App Router), React 19, `output: "export"` |
+| Styling | Tailwind CSS v4, shadcn `base-vega` tokens |
+| Type | [Switzer](https://www.fontshare.com/fonts/switzer) (self-hosted variable) + Geist Mono |
+| Hosting | GitHub Pages, deployed by `.github/workflows/deploy.yml` on push to `main` |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Content
 
-## Learn More
+Every string lives in `content/en.ts` and `content/es.ts`, typed against
+`content/types.ts`. Adding a field to one locale without the other is a
+compile error, which is the point — copy cannot drift between languages.
 
-To learn more about Next.js, take a look at the following resources:
+### Routing
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+`app/[locale]/` is the root layout, so `<html lang>` follows the URL. The
+locale list is `BUILT_LOCALES` in `content/index.ts`; adding a locale there
+adds its routes, its `hreflang` pair, its sitemap entries and its OG image.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+`/` is a separate root layout that detects `navigator.language` and redirects.
+A static export has no middleware, so detection has to happen in the browser —
+both locales are independently crawlable regardless.
 
-## Deploy on Vercel
+### Theming
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The theme is stored on `data-theme` on `<html>`, not a class. React renders
+`className` on that element, so a client-side navigation would wipe a class
+set by the pre-paint script. An inline script in the layout applies the theme
+before first paint to avoid a flash.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Colour and contrast
+
+`--ink-accent` and `--ink-accent-text` are two stops of the same hue: no single
+green is both legible on white and distinct from near-black text. Graphics and
+large type use the first, small text the second. `--subtle-foreground` is a
+third text tier for dates and metadata — an opacity modifier on the muted
+colour fell below 4.5:1.
+
+### OG images
+
+Generated at build time by `next/og` (`opengraph-image.tsx`), one per page per
+locale. Next emits them without a file extension, which GitHub Pages serves as
+`application/octet-stream`; `scripts/fix-og.mjs` copies each to a `.png`
+sibling after the build and repoints the meta tags.
+
+## Deploying
+
+Push to `main`. The workflow lints, typechecks, builds and publishes `./out`.
+`public/CNAME` carries the custom domain.
+
+## Licence
+
+Code is free to learn from. The content and the Switzer font files are not
+mine to relicense — Switzer is © Indian Type Foundry, used under the
+[Fontshare licence](https://www.fontshare.com/licence).

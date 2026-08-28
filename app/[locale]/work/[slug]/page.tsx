@@ -65,7 +65,7 @@ export default async function CaseStudy({
           {backToWork}
         </Link>
 
-        <p className="mono mt-12 text-muted-foreground/60">{study.years}</p>
+        <p className="mono mt-12 text-subtle-foreground">{study.years}</p>
         <h1 className="display mt-3 max-w-[14ch]">
           <span className="kinetic-line" style={{ animationDelay: "60ms" }}>
             {study.name}
@@ -93,23 +93,6 @@ export default async function CaseStudy({
         </div>
       </section>
 
-      {/* Media placeholders ------------------------------------ */}
-      {study.media?.length ? (
-        <section aria-hidden className="section">
-          <div className="shell flex flex-col gap-4">
-            {study.media.map((item) => (
-              <figure key={item.caption} className="flex flex-col gap-3">
-                <div className="grid aspect-[16/9] w-full place-items-center rounded-sm border border-dashed border-[var(--rule)] bg-[var(--muted)]/30">
-                  <span className="mono text-muted-foreground/50">
-                    {item.caption}
-                  </span>
-                </div>
-              </figure>
-            ))}
-          </div>
-        </section>
-      ) : null}
-
       {/* Context / Constraint / Approach / Outcome -------------- */}
       {study.sections.map((section) => (
         <section
@@ -122,8 +105,8 @@ export default async function CaseStudy({
               {section.heading}
             </h2>
             <div className="flex flex-col gap-5">
-              {section.body.map((paragraph) => (
-                <p key={paragraph.slice(0, 24)} className="prose-body">
+              {section.body.map((paragraph, index) => (
+                <p key={index} className="prose-body">
                   {paragraph}
                 </p>
               ))}

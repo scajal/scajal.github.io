@@ -1,10 +1,19 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import "../globals.css";
 import { geistMono, switzer, themeScript } from "@/app/fonts";
 import { SiteChrome } from "@/components/site-chrome";
 import { BUILT_LOCALES, getContent, type BuiltLocale } from "@/content";
 import { PROFILE, SITE_URL } from "@/lib/site";
+
+export const viewport: Viewport = {
+  // Matches the painted background in each scheme, so the browser chrome
+  // on mobile does not sit against a different colour than the page.
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#09090b" },
+  ],
+};
 
 export function generateStaticParams() {
   return BUILT_LOCALES.map((locale) => ({ locale }));
@@ -73,10 +82,10 @@ export default async function RootLayout({
 
         <footer className="section">
           <div className="shell flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <p className="mono text-muted-foreground/60">
+            <p className="mono text-subtle-foreground">
               © {new Date().getFullYear()} {PROFILE.name}
             </p>
-            <p className="mono text-muted-foreground/60">{footer.built}</p>
+            <p className="mono text-subtle-foreground">{footer.built}</p>
           </div>
         </footer>
       </body>

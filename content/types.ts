@@ -63,8 +63,6 @@ export type CaseStudy = {
   facts: { label: string; value: string }[];
   /** Context / Constraint / Approach / Outcome. */
   sections: { heading: string; body: string[] }[];
-  /** Rendered as an empty framed slot until real imagery exists. */
-  media?: { caption: string }[];
   meta: { title: string; description: string };
 };
 
