@@ -61,7 +61,7 @@ export default async function Image({
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-          <div style={{ display: "flex", width: 56, height: 5, background: "#93de04" }} />
+          <div style={{ display: "flex", width: 18, height: 18, borderRadius: 18, background: "#93de04" }} />
           <div
             style={{
               display: "flex",

@@ -45,7 +45,7 @@ export default async function Image({
         <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
           {/* Satori lays sibling flex children in a row, so the accent is a
               mark of its own rather than a coloured span inside the text. */}
-          <div style={{ display: "flex", width: 56, height: 5, background: "#93de04" }} />
+          <div style={{ display: "flex", width: 18, height: 18, borderRadius: 18, background: "#93de04" }} />
           <div style={{ display: "flex", fontSize: 24, color: "#a1a1aa" }}>
             {PROFILE.name}
           </div>

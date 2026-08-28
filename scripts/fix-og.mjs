@@ -1,8 +1,8 @@
 /**
- * Next emits generated OG images as extensionless files (out/en/opengraph-image).
- * GitHub Pages serves those as application/octet-stream, which most link
- * unfurlers reject. This copies each one to a .png sibling and repoints the
- * meta tags at it.
+ * Next emits generated images as extensionless files (out/en/opengraph-image,
+ * out/apple-icon). GitHub Pages serves those as application/octet-stream, which
+ * link unfurlers reject and iOS will not accept as a home-screen icon. This
+ * copies each to a .png sibling and repoints the tags that reference them.
  */
 import { readdir, readFile, writeFile, copyFile } from "node:fs/promises";
 import { join } from "node:path";
@@ -22,7 +22,11 @@ async function walk(dir) {
 
 const files = await walk(OUT);
 
-const images = files.filter((f) => f.endsWith("/opengraph-image"));
+const GENERATED = ["opengraph-image", "apple-icon"];
+
+const images = files.filter((f) =>
+  GENERATED.some((name) => f.endsWith(`/${name}`)),
+);
 for (const image of images) {
   await copyFile(image, `${image}.png`);
 }
@@ -32,11 +36,17 @@ let patched = 0;
 for (const file of html) {
   const source = await readFile(file, "utf8");
   // /en/opengraph-image?abc123  ->  /en/opengraph-image.png
-  const next = source.replace(/\/opengraph-image(\?[a-z0-9]+)?/gi, "/opengraph-image.png");
+  let next = source;
+  for (const name of GENERATED) {
+    next = next.replace(
+      new RegExp(`/${name}(\\?[a-z0-9]+)?`, "gi"),
+      `/${name}.png`,
+    );
+  }
   if (next !== source) {
     await writeFile(file, next);
     patched += 1;
   }
 }
 
-console.log(`og: copied ${images.length} image(s), patched ${patched} page(s)`);
+console.log(`images: copied ${images.length}, patched ${patched} page(s)`);

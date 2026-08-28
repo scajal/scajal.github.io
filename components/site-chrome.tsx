@@ -21,7 +21,9 @@ export function SiteChrome({
         translate="no"
         className="mono tracking-tight text-foreground transition-opacity hover:opacity-70"
       >
-        scajal<span className="text-muted-foreground">.dev</span>
+        scajal
+        <span style={{ color: "var(--ink-accent)" }}>.</span>
+        <span className="text-muted-foreground">dev</span>
       </Link>
 
       <div className="flex items-center gap-4">
