@@ -4,7 +4,7 @@ import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { notFound } from "next/navigation";
 import { getContent, type BuiltLocale } from "@/content";
 import { CASE_SLUGS, type CaseSlug } from "@/content/types";
-import { PROFILE, SITE_URL } from "@/lib/site";
+import { DEFAULT_LOCALE, PROFILE, SITE_URL } from "@/lib/site";
 
 export function generateStaticParams() {
   return CASE_SLUGS.map((slug) => ({ slug }));
@@ -26,9 +26,12 @@ export async function generateMetadata({
     description: study.meta.description,
     alternates: {
       canonical: `/${locale}/work/${slug}`,
+      // No language chooser this deep, so x-default falls back to the default
+      // locale. Must stay in sync with app/sitemap.ts.
       languages: {
         en: `/en/work/${slug}`,
         es: `/es/work/${slug}`,
+        "x-default": `/${DEFAULT_LOCALE}/work/${slug}`,
       },
       types: { "text/markdown": `/${locale}/work/${slug}/index.md` },
     },
