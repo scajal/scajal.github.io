@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import "../globals.css";
 import { geistMono, switzer, themeScript } from "@/app/fonts";
 import { SiteChrome } from "@/components/site-chrome";
+import { CSP } from "@/lib/csp";
 import { BUILT_LOCALES, getContent, type BuiltLocale } from "@/content";
 import { PROFILE, SITE_URL } from "@/lib/site";
 
@@ -34,6 +35,8 @@ export async function generateMetadata({
       canonical: `/${locale}`,
       // x-default points at the root, which is the language chooser.
       languages: { en: "/en", es: "/es", "x-default": "/" },
+      // The Markdown mirror of this page, so an agent can skip the DOM.
+      types: { "text/markdown": `/${locale}/index.md` },
     },
     openGraph: {
       type: "profile",
@@ -66,6 +69,13 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        <meta httpEquiv="Content-Security-Policy" content={CSP} />
+        <link
+          rel="alternate"
+          type="text/plain"
+          title="llms.txt"
+          href="/llms.txt"
+        />
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className="min-h-full flex flex-col">

@@ -144,9 +144,9 @@
      cannot be both legible on the background and distinct from the
      near-black text:
        --ink-accent       graphics + large type  (3.4:1 on white)
-       --ink-accent-text  small text             (4.3:1 on white) */
+       --ink-accent-text  small text             (4.7:1 on white) */
   --ink-accent: oklch(0.62 0.2 135);
-  --ink-accent-text: oklch(0.56 0.2 135);
+  --ink-accent-text: oklch(0.54 0.2 135);
   /* A third text tier for dates and metadata. Dimmer than muted, but
      still 4.57:1 on white — an opacity modifier landed at 3.33:1. */
   --subtle-foreground: oklch(0.565 0.015 285.938);

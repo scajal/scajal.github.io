@@ -14,41 +14,76 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
   const content = getContent(locale as BuiltLocale);
   const { hero, work, ai, past, contact } = content;
 
-  const personLd = {
+  // One @graph rather than a bare Person: agents and rich-result parsers can
+  // follow @id references from the page to the person to the work, which a
+  // flat node does not let them do.
+  const personId = `${SITE_URL}/#person`;
+  const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "Person",
-    name: PROFILE.name,
-    url: `${SITE_URL}/${locale}`,
-    jobTitle: "Tech Lead & Full-Stack Engineer",
-    email: `mailto:${PROFILE.email}`,
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "Montevideo",
-      addressCountry: "UY",
-    },
-    alumniOf: {
-      "@type": "CollegeOrUniversity",
-      name: "Universidad de la Empresa",
-    },
-    knowsAbout: [
-      "Laravel",
-      "PHP",
-      "React",
-      "TypeScript",
-      "Next.js",
-      "Software architecture",
-      "Fintech",
-      "Cryptocurrency platforms",
-      "LoRaWAN",
+    "@graph": [
+      {
+        "@type": "ProfilePage",
+        "@id": `${SITE_URL}/${locale}/#page`,
+        url: `${SITE_URL}/${locale}/`,
+        name: content.meta.title,
+        description: content.meta.description,
+        inLanguage: locale,
+        mainEntity: { "@id": personId },
+      },
+      {
+        "@type": "Person",
+        "@id": personId,
+        name: PROFILE.name,
+        url: `${SITE_URL}/${locale}/`,
+        jobTitle: "Tech Lead & Full-Stack Engineer",
+        description: content.meta.description,
+        email: `mailto:${PROFILE.email}`,
+        knowsLanguage: BUILT_LOCALES as unknown as string[],
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: "Montevideo",
+          addressCountry: "UY",
+        },
+        alumniOf: {
+          "@type": "CollegeOrUniversity",
+          name: "Universidad de la Empresa",
+        },
+        worksFor: hero.currently.map((item) => ({
+          "@type": "Organization",
+          name: item.org,
+        })),
+        knowsAbout: [
+          "Laravel",
+          "PHP",
+          "React",
+          "TypeScript",
+          "Next.js",
+          "Software architecture",
+          "Fintech",
+          "Cryptocurrency platforms",
+          "LoRaWAN",
+        ],
+        sameAs: [PROFILE.linkedin, PROFILE.github],
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${SITE_URL}/${locale}/#work`,
+        name: work.title,
+        itemListElement: work.items.map((item, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          name: item.name,
+          url: `${SITE_URL}/${locale}/work/${item.slug}/`,
+        })),
+      },
     ],
-    sameAs: [PROFILE.linkedin, PROFILE.github],
   };
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(personLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
       <main id="main" className="flex-1">

@@ -54,6 +54,38 @@ large type use the first, small text the second. `--subtle-foreground` is a
 third text tier for dates and metadata — an opacity modifier on the muted
 colour fell below 4.5:1.
 
+### Agent-readable output
+
+The site is meant to be read by agents as well as people, so nothing important
+is locked behind rendering the DOM.
+
+| Route | What it is |
+|---|---|
+| `/llms.txt` | Discovery index: every page in both locales, one line each |
+| `/[locale]/index.md` | The home page as Markdown |
+| `/[locale]/work/[slug]/index.md` | A case study as Markdown |
+| `/[locale]/llms-full.txt` | The whole locale — page and all case studies — in one fetch |
+
+All four are static route handlers (`export const dynamic = "force-static"`)
+rendering the same `content/` dictionaries as the pages, via `lib/agent-text.ts`.
+There is no second copy of the copy; a change to `content/en.ts` changes both
+the HTML and the Markdown. Each HTML page advertises its mirror with
+`<link rel="alternate" type="text/markdown">`, and `robots.ts` names the AI
+crawlers explicitly, because several of them (`Google-Extended`,
+`Applebot-Extended`) are opt-out by convention and read silence as a refusal.
+
+Pages also carry a schema.org `@graph` rather than a flat node: `ProfilePage`
+→ `Person` → `ItemList` on the home page, `Article` + `BreadcrumbList` on a
+case study, joined by `@id` so a parser can walk between them.
+
+### Content security policy
+
+GitHub Pages serves no headers, so the policy rides in a `<meta>` tag from
+`lib/csp.ts`. `script-src` has to keep `'unsafe-inline'` — Next inlines a
+different hydration payload on every page, so there is no stable hash set and
+no server to mint a nonce. `base-uri`, `object-src` and `form-action` are still
+locked down, and everything the site loads is same-origin.
+
 ### OG images
 
 Generated at build time by `next/og` (`opengraph-image.tsx`), one per page per

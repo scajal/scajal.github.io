@@ -21,7 +21,10 @@ export function SiteChrome({
         translate="no"
         className="mono tracking-tight text-foreground transition-opacity hover:opacity-70"
       >
-        santiago <span style={{ color: "var(--ink-accent)" }}>cajal</span>
+        santiago{" "}
+        {/* Wordmark type is small, so it takes the small-text accent rather
+            than the large-type one the display headline uses. */}
+        <span style={{ color: "var(--ink-accent-text)" }}>cajal</span>
       </Link>
 
       <div className="flex items-center gap-4">

@@ -4,7 +4,7 @@ import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { notFound } from "next/navigation";
 import { getContent, type BuiltLocale } from "@/content";
 import { CASE_SLUGS, type CaseSlug } from "@/content/types";
-import { SITE_URL } from "@/lib/site";
+import { PROFILE, SITE_URL } from "@/lib/site";
 
 export function generateStaticParams() {
   return CASE_SLUGS.map((slug) => ({ slug }));
@@ -30,6 +30,7 @@ export async function generateMetadata({
         en: `/en/work/${slug}`,
         es: `/es/work/${slug}`,
       },
+      types: { "text/markdown": `/${locale}/work/${slug}/index.md` },
     },
     openGraph: {
       type: "article",
@@ -54,8 +55,55 @@ export default async function CaseStudy({
   const order = CASE_SLUGS;
   const next = order[(order.indexOf(slug) + 1) % order.length];
 
+  const url = `${SITE_URL}/${locale}/work/${slug}/`;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "@id": `${url}#article`,
+        url,
+        headline: study.meta.title,
+        description: study.meta.description,
+        abstract: study.lede,
+        inLanguage: locale,
+        articleSection: study.sections.map((section) => section.heading),
+        author: { "@id": `${SITE_URL}/#person` },
+        about: { "@type": "Organization", name: study.name },
+        creator: {
+          "@type": "Person",
+          "@id": `${SITE_URL}/#person`,
+          name: PROFILE.name,
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: content.meta.title,
+            item: `${SITE_URL}/${locale}/`,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: content.work.title,
+            item: `${SITE_URL}/${locale}/#work`,
+          },
+          { "@type": "ListItem", position: 3, name: study.name, item: url },
+        ],
+      },
+    ],
+  };
+
   return (
     <main id="main" className="flex-1">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
       <div className="shell pb-[clamp(2.5rem,6vw,5rem)] pt-[clamp(1.5rem,4vw,3rem)]">
         <Link
           href={`/${locale}#work`}
