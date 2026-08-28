@@ -30,6 +30,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Gate: a broken build on a personal site is invisible until
+      # someone tells you, so lint and typecheck before deploying.
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
       - name: Build
         run: npm run build
 

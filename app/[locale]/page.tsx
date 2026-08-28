@@ -2,7 +2,6 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { AnimatedValue } from "@/components/animated-value";
 import { Section } from "@/components/section";
-import { SiteChrome } from "@/components/site-chrome";
 import { BUILT_LOCALES, getContent, type BuiltLocale } from "@/content";
 import { PROFILE, SITE_URL } from "@/lib/site";
 
@@ -13,7 +12,7 @@ export function generateStaticParams() {
 export default async function Home({ params }: PageProps<"/[locale]">) {
   const { locale } = await params;
   const content = getContent(locale as BuiltLocale);
-  const { hero, work, ai, past, contact, footer, nav } = content;
+  const { hero, work, ai, past, contact } = content;
 
   const personLd = {
     "@context": "https://schema.org",
@@ -51,15 +50,6 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personLd) }}
       />
-
-      <a
-        href="#main"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-background focus:px-4 focus:py-2 focus:text-sm"
-      >
-        {nav.skipToContent}
-      </a>
-
-      <SiteChrome locale={locale} themeLabel={nav.themeToggle} />
 
       <main id="main" className="flex-1">
         {/* Hero ------------------------------------------------ */}
@@ -228,14 +218,6 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
         </Section>
       </main>
 
-      <footer className="section">
-        <div className="shell flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-          <p className="mono text-muted-foreground/60">
-            © {new Date().getFullYear()} {PROFILE.name}
-          </p>
-          <p className="mono text-muted-foreground/60">{footer.built}</p>
-        </div>
-      </footer>
     </>
   );
 }

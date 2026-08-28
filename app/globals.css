@@ -2,7 +2,10 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-@custom-variant dark (&:is(.dark *));
+/* The theme lives on a data attribute rather than a class: React owns
+   <html class>, so a client-side navigation would wipe a class set by the
+   pre-paint script. It does not touch attributes it never rendered. */
+@custom-variant dark (&:is([data-theme="dark"] *));
 
 @theme inline {
   --color-background: var(--background);
@@ -83,7 +86,7 @@
   --sidebar-ring: oklch(0.705 0.015 286.067);
 }
 
-.dark {
+[data-theme="dark"] {
   --background: oklch(0.141 0.005 285.823);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.21 0.006 285.885);
@@ -148,7 +151,7 @@
   --measure: 62ch;
 }
 
-.dark {
+[data-theme="dark"] {
   /* On near-black both stops clear 12:1, so one value serves both. */
   --ink-accent: oklch(0.82 0.22 130);
   --ink-accent-text: oklch(0.82 0.22 130);
@@ -324,5 +327,95 @@
   }
   .kinetic-line {
     font-variation-settings: "wght" 560;
+  }
+}
+
+/* Print ------------------------------------------------------
+   The site is the only version of the CV, so the home page has to
+   print as a clean two-page document: no chrome, no animation,
+   ink on paper, and links spelled out.
+   ----------------------------------------------------------- */
+
+@media print {
+  :root {
+    --background: #fff;
+    --foreground: #000;
+    --muted-foreground: #333;
+    --rule: #ccc;
+    --ink-accent: #000;
+    --ink-accent-text: #000;
+    --gutter: 0;
+  }
+
+  html,
+  html[data-theme="dark"] {
+    color-scheme: light;
+    background: #fff;
+    color: #000;
+  }
+
+  body {
+    font-size: 10.5pt;
+  }
+
+  /* Navigation, theme control and the footer note carry nothing on paper. */
+  header,
+  footer {
+    display: none !important;
+  }
+
+  .kinetic-line,
+  .fade-up {
+    opacity: 1 !important;
+    animation: none !important;
+    transform: none !important;
+    filter: none !important;
+    font-variation-settings: "wght" 560;
+  }
+
+  .section {
+    padding-block: 1.1rem;
+    border-top: 1px solid var(--rule);
+    break-inside: avoid;
+  }
+
+  .section-grid {
+    grid-template-columns: 8rem minmax(0, 1fr);
+    gap: 1.5rem;
+  }
+
+  .display {
+    font-size: 22pt;
+    line-height: 1.1;
+  }
+
+  .section-title {
+    font-size: 13pt;
+  }
+
+  .prose-body {
+    font-size: 10pt;
+    line-height: 1.45;
+    max-width: none;
+  }
+
+  /* A printed link is useless without its destination. */
+  main a[href^="http"]::after,
+  main a[href^="mailto:"]::after {
+    content: " (" attr(href) ")";
+    font-size: 8.5pt;
+    color: #555;
+    word-break: break-all;
+  }
+
+  main a[href^="mailto:"]::after {
+    content: "";
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    break-after: avoid;
   }
 }

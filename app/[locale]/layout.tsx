@@ -1,27 +1,10 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
-import { Geist_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
 import "../globals.css";
+import { geistMono, switzer, themeScript } from "@/app/fonts";
+import { SiteChrome } from "@/components/site-chrome";
 import { BUILT_LOCALES, getContent, type BuiltLocale } from "@/content";
 import { PROFILE, SITE_URL } from "@/lib/site";
-
-const switzer = localFont({
-  src: "../fonts/Switzer-Variable.woff2",
-  variable: "--font-switzer",
-  weight: "100 900",
-  display: "swap",
-  adjustFontFallback: "Arial",
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-// Runs before first paint so the theme never flashes.
-const themeScript = `(function(){try{var t=localStorage.getItem("theme");var d=t?t==="dark":window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.classList.toggle("dark",d);document.documentElement.style.colorScheme=d?"dark":"light";}catch(e){}})();`;
 
 export function generateStaticParams() {
   return BUILT_LOCALES.map((locale) => ({ locale }));
@@ -65,6 +48,7 @@ export default async function RootLayout({
 }: LayoutProps<"/[locale]">) {
   const { locale } = await params;
   if (!isBuilt(locale)) notFound();
+  const { nav, footer } = getContent(locale);
 
   return (
     <html
@@ -75,7 +59,27 @@ export default async function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-background focus:px-4 focus:py-2 focus:text-sm"
+        >
+          {nav.skipToContent}
+        </a>
+
+        <SiteChrome locale={locale} themeLabel={nav.themeToggle} />
+
+        {children}
+
+        <footer className="section">
+          <div className="shell flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <p className="mono text-muted-foreground/60">
+              © {new Date().getFullYear()} {PROFILE.name}
+            </p>
+            <p className="mono text-muted-foreground/60">{footer.built}</p>
+          </div>
+        </footer>
+      </body>
     </html>
   );
 }

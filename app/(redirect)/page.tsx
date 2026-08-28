@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { BUILT_LOCALES } from "@/content";
 import { DEFAULT_LOCALE } from "@/lib/site";
 
@@ -18,14 +19,14 @@ export default function LocaleRedirect() {
         <h1 className="mono text-muted-foreground">Santiago Cajal</h1>
         <ul className="mt-4 flex gap-4">
           <li>
-            <a className="link" href="/en/">
+            <Link className="link" href="/en">
               English
-            </a>
+            </Link>
           </li>
           <li>
-            <a className="link" href="/es/">
+            <Link className="link" href="/es">
               Español
-            </a>
+            </Link>
           </li>
         </ul>
       </main>

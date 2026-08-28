@@ -47,4 +47,29 @@ export type Content = {
     links: { label: string; href: string; note: string }[];
   };
   footer: { built: string };
+  cases: CaseContent;
+};
+
+export const CASE_SLUGS = ["criptala", "rabbit-iot", "hexa-rfid"] as const;
+export type CaseSlug = (typeof CASE_SLUGS)[number];
+
+export type CaseStudy = {
+  name: string;
+  role: string;
+  years: string;
+  /** One sentence under the title. */
+  lede: string;
+  /** Sidebar facts: stack, team size, status. */
+  facts: { label: string; value: string }[];
+  /** Context / Constraint / Approach / Outcome. */
+  sections: { heading: string; body: string[] }[];
+  /** Rendered as an empty framed slot until real imagery exists. */
+  media?: { caption: string }[];
+  meta: { title: string; description: string };
+};
+
+export type CaseContent = {
+  backToWork: string;
+  nextLabel: string;
+  studies: Record<CaseSlug, CaseStudy>;
 };

@@ -35,18 +35,20 @@ export function AnimatedValue({
     const node = ref.current;
     if (!node || result.count === undefined) return;
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setValue(result.count);
-      return;
-    }
-
     let frame = 0;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (!entry.isIntersecting) return;
         observer.disconnect();
 
         const target = result.count as number;
+        if (reduced) {
+          setValue(target);
+          return;
+        }
+
         const duration = 1100;
         const start = performance.now();
         const step = (now: number) => {
