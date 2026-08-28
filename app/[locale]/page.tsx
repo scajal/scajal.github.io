@@ -114,23 +114,28 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
                   href={`/${locale}/work/${item.slug}`}
                   className="group grid gap-x-8 gap-y-3 py-8 md:grid-cols-[minmax(0,15rem)_minmax(0,1fr)]"
                 >
-                  <div>
-                    <h4 className="text-xl font-medium tracking-tight">
-                      <span className="link decoration-transparent group-hover:decoration-[var(--ink-accent)]">
-                        {item.name}
-                      </span>
-                      <ArrowUpRight
-                        aria-hidden
-                        className="ml-1 inline size-4 -translate-y-px text-muted-foreground transition-transform duration-200 group-hover:-translate-y-1 group-hover:text-[var(--ink-accent-text)]"
-                      />
-                    </h4>
-                    <p className="mono mt-1 text-muted-foreground/60">
-                      {item.years}
-                    </p>
+                  {/* The arrow sits in its own flex cell rather than inline
+                      after the title: a long name — or a longer translation
+                      of it — would otherwise orphan it onto its own line. */}
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <h4 className="text-xl font-medium tracking-tight">
+                        <span className="link decoration-transparent group-hover:decoration-[var(--ink-accent)]">
+                          {item.name}
+                        </span>
+                      </h4>
+                      <p className="mono mt-1 text-muted-foreground/60">
+                        {item.years}
+                      </p>
+                    </div>
+                    <ArrowUpRight
+                      aria-hidden
+                      className="mt-1.5 size-4 shrink-0 text-muted-foreground transition-transform duration-200 group-hover:-translate-y-1 group-hover:text-[var(--ink-accent)]"
+                    />
                   </div>
                   <div>
                     <p className="text-[clamp(1.75rem,2.6vw,2.25rem)] font-medium leading-none tracking-[-0.04em]">
-                      <AnimatedValue result={item.result} />
+                      <AnimatedValue result={item.result} locale={locale} />
                     </p>
                     <p className="mono mt-2 text-muted-foreground">
                       {item.result.label}

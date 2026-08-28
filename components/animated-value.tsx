@@ -20,7 +20,13 @@ function split(display: string) {
  * Counts up to a project's headline number when it scrolls into view.
  * Values without a `count` (a range, a word) render as-is.
  */
-export function AnimatedValue({ result }: { result: Result }) {
+export function AnimatedValue({
+  result,
+  locale,
+}: {
+  result: Result;
+  locale: string;
+}) {
   const ref = useRef<HTMLSpanElement>(null);
   const [value, setValue] = useState<number | null>(null);
   const { prefix, digits, suffix } = split(result.display);
@@ -65,7 +71,7 @@ export function AnimatedValue({ result }: { result: Result }) {
   const shown =
     result.count === undefined || value === null
       ? digits
-      : value.toLocaleString("en-US");
+      : value.toLocaleString(locale);
 
   return (
     <span ref={ref} aria-label={`${result.display} ${result.label}`}>

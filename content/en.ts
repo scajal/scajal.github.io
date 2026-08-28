@@ -112,8 +112,7 @@ export const en: Content = {
   contact: {
     eyebrow: "Contact",
     title: "Get in touch",
-    body:
-      "Montevideo, UTC−3, working remotely. Email is the fastest way to reach me — and if you want my CV, just ask.",
+    body: "Montevideo, UTC−3.",
     emailLabel: "Email",
     links: [
       { label: "Email", href: `mailto:${PROFILE.email}`, note: PROFILE.email },

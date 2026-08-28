@@ -40,7 +40,8 @@ export async function generateMetadata({
     description: content.meta.description,
     alternates: {
       canonical: `/${locale}`,
-      languages: { en: "/en", es: "/es" },
+      // x-default points at the root, which is the language chooser.
+      languages: { en: "/en", es: "/es", "x-default": "/" },
     },
     openGraph: {
       type: "profile",
