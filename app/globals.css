@@ -296,29 +296,25 @@
   text-decoration-color: var(--ink-accent);
 }
 
-/* Signature: the headline is set in a variable font, so the
-   entrance animates the weight axis itself rather than fading in. */
-
 /* Starts opaque on purpose: the headline is the LCP element, and an
    opacity-0 start makes the browser withhold the paint until the
-   animation finishes. Weight, tracking and blur carry the effect. */
+   animation finishes. Blur, rise and a compositor-only scale carry
+   the effect. Weight and tracking stay at their settled values so
+   the line count cannot change mid-animation (CLS). */
 .kinetic-line {
   display: block;
+  transform-origin: 0% 50%;
   animation: kinetic-in 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 @keyframes kinetic-in {
   from {
-    transform: translateY(0.14em);
+    transform: translateY(0.14em) scale(1.04);
     filter: blur(6px);
-    font-variation-settings: "wght" 180;
-    letter-spacing: -0.005em;
   }
   to {
     transform: none;
     filter: blur(0);
-    font-variation-settings: "wght" 560;
-    letter-spacing: -0.045em;
   }
 }
 
