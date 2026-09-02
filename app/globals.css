@@ -298,9 +298,9 @@
 
 /* Starts opaque on purpose: the headline is the LCP element, and an
    opacity-0 start makes the browser withhold the paint until the
-   animation finishes. Blur, rise and a compositor-only scale carry
-   the effect. Weight and tracking stay at their settled values so
-   the line count cannot change mid-animation (CLS). */
+   animation finishes. Only transform is animated: filter/weight/
+   tracking are layout or paint work, and Lighthouse flags them as
+   non-composited. Scale stands in for the old shrink. */
 .kinetic-line {
   display: block;
   transform-origin: 0% 50%;
@@ -310,11 +310,9 @@
 @keyframes kinetic-in {
   from {
     transform: translateY(0.14em) scale(1.04);
-    filter: blur(6px);
   }
   to {
     transform: none;
-    filter: blur(0);
   }
 }
 

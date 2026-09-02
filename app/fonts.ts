@@ -13,6 +13,9 @@ export const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
   display: "swap",
+  // Labels, not the LCP headline. Preloading it contends with Switzer
+  // on Slow 4G and delays the paint PageSpeed measures.
+  preload: false,
 });
 
 /** Runs before first paint so the theme never flashes. */

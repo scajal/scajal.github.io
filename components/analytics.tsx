@@ -3,9 +3,9 @@ import Script from "next/script";
 export const GA_MEASUREMENT_ID = "G-H449YB52Y5";
 
 /**
- * Google Analytics 4. `afterInteractive` rather than the raw `async` tag: the
- * page is content, not an app, so measurement should never compete with first
- * paint for bandwidth. gtag still records the pageview once it loads.
+ * Google Analytics 4. `lazyOnload` rather than `afterInteractive`: Next still
+ * preloads afterInteractive scripts, and that request contended with the
+ * Switzer file that paints the LCP headline.
  *
  * Only mounted in the locale layout. `/` is a noindex redirect that leaves
  * before a script can load, and the locale page it lands on counts the visit.
@@ -15,9 +15,9 @@ export function Analytics() {
     <>
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-        strategy="afterInteractive"
+        strategy="lazyOnload"
       />
-      <Script id="gtag-init" strategy="afterInteractive">
+      <Script id="gtag-init" strategy="lazyOnload">
         {`window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
