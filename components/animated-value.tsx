@@ -1,7 +1,3 @@
-"use client";
-
-import { useEffect, useRef, useState } from "react";
-
 type Result = { count?: number; display: string; label: string };
 
 /** Splits "6,000+" into ["", "6,000", "+"] so only the number animates. */
@@ -17,8 +13,8 @@ function split(display: string) {
 }
 
 /**
- * Counts up to a project's headline number when it scrolls into view.
- * Values without a `count` (a range, a word) render as-is.
+ * Renders a project's headline number. Count-up is applied by `enhanceScript`
+ * when the node scrolls into view — no client component, no hydration.
  */
 export function AnimatedValue({
   result,
@@ -27,59 +23,20 @@ export function AnimatedValue({
   result: Result;
   locale: string;
 }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const [value, setValue] = useState<number | null>(null);
   const { prefix, digits, suffix } = split(result.display);
 
-  useEffect(() => {
-    const node = ref.current;
-    if (!node || result.count === undefined) return;
-
-    let frame = 0;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
-        observer.disconnect();
-
-        const target = result.count as number;
-        if (reduced) {
-          setValue(target);
-          return;
-        }
-
-        const duration = 1100;
-        const start = performance.now();
-        const step = (now: number) => {
-          const t = Math.min((now - start) / duration, 1);
-          // easeOutExpo — quick off the mark, settles onto the number
-          const eased = t === 1 ? 1 : 1 - Math.pow(2, -9 * t);
-          setValue(Math.round(target * eased));
-          if (t < 1) frame = requestAnimationFrame(step);
-        };
-        frame = requestAnimationFrame(step);
-      },
-      { threshold: 0.5 },
-    );
-
-    observer.observe(node);
-    return () => {
-      observer.disconnect();
-      cancelAnimationFrame(frame);
-    };
-  }, [result.count]);
-
-  const shown =
-    result.count === undefined || value === null
-      ? digits
-      : value.toLocaleString(locale);
-
   return (
-    <span ref={ref} aria-label={`${result.display} ${result.label}`}>
+    <span aria-label={`${result.display} ${result.label}`}>
       <span aria-hidden>
         {prefix}
-        <span className="tabular-nums">{shown}</span>
+        <span
+          className="tabular-nums"
+          {...(result.count !== undefined
+            ? { "data-count": result.count, "data-locale": locale }
+            : {})}
+        >
+          {digits}
+        </span>
         {suffix}
       </span>
     </span>

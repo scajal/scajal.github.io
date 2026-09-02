@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { AnimatedValue } from "@/components/animated-value";
 import { Section } from "@/components/section";
@@ -137,8 +136,8 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
           <ul className="mt-12 flex flex-col">
             {work.items.map((item) => (
               <li key={item.slug} className="border-t border-[var(--rule)]">
-                <Link
-                  href={`/${locale}/work/${item.slug}`}
+                <a
+                  href={`/${locale}/work/${item.slug}/`}
                   className="group grid gap-x-8 gap-y-3 py-8 md:grid-cols-[minmax(0,15rem)_minmax(0,1fr)]"
                 >
                   {/* The arrow sits in its own flex cell rather than inline
@@ -182,7 +181,7 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
                       ))}
                     </ul>
                   </div>
-                </Link>
+                </a>
               </li>
             ))}
           </ul>

@@ -5,6 +5,7 @@ import { geistMono, switzer, themeScript } from "@/app/fonts";
 import { Analytics } from "@/components/analytics";
 import { SiteChrome } from "@/components/site-chrome";
 import { CSP } from "@/lib/csp";
+import { enhanceScript } from "@/lib/enhance-script";
 import { BUILT_LOCALES, getContent, type BuiltLocale } from "@/content";
 import { PROFILE, SITE_URL } from "@/lib/site";
 
@@ -101,6 +102,7 @@ export default async function RootLayout({
             <p className="mono text-subtle-foreground">{footer.built}</p>
           </div>
         </footer>
+        <script dangerouslySetInnerHTML={{ __html: enhanceScript }} />
       </body>
     </html>
   );
