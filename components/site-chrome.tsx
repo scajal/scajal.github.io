@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { LOCALES, type Locale } from "@/lib/site";
 import { BUILT_LOCALES } from "@/content";
@@ -15,8 +16,8 @@ export function SiteChrome({
 }) {
   return (
     <header className="shell flex items-center justify-between gap-4 py-6">
-      <a
-        href={`/${locale}/`}
+      <Link
+        href={`/${locale}`}
         translate="no"
         className="mono tracking-tight text-foreground transition-opacity hover:opacity-70"
       >
@@ -24,7 +25,7 @@ export function SiteChrome({
         {/* Wordmark type is small, so it takes the small-text accent rather
             than the large-type one the display headline uses. */}
         <span style={{ color: "var(--ink-accent-text)" }}>cajal</span>
-      </a>
+      </Link>
 
       <div className="flex items-center gap-4">
         <nav aria-label="Language" className="flex items-center gap-1.5">
@@ -39,8 +40,8 @@ export function SiteChrome({
                   </span>
                 )}
                 {built ? (
-                  <a
-                    href={`/${code}/`}
+                  <Link
+                    href={`/${code}`}
                     aria-current={current ? "true" : undefined}
                     className={`mono uppercase transition-colors ${
                       current
@@ -49,7 +50,7 @@ export function SiteChrome({
                     }`}
                   >
                     {code}
-                  </a>
+                  </Link>
                 ) : (
                   <span className="mono uppercase text-subtle-foreground">
                     {code}

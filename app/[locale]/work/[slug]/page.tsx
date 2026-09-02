@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { notFound } from "next/navigation";
 import { getContent, type BuiltLocale } from "@/content";
@@ -107,13 +108,13 @@ export default async function CaseStudy({
       />
 
       <div className="shell pb-[clamp(2.5rem,6vw,5rem)] pt-[clamp(1.5rem,4vw,3rem)]">
-        <a
-          href={`/${locale}/#work`}
+        <Link
+          href={`/${locale}#work`}
           className="mono inline-flex items-center gap-2 text-muted-foreground transition-colors hover:text-foreground"
         >
           <ArrowLeft aria-hidden className="size-3.5" />
           {backToWork}
-        </a>
+        </Link>
 
         <p className="mono mt-12 text-subtle-foreground">{study.years}</p>
         <h1 className="display mt-3 max-w-[14ch]">
@@ -168,8 +169,8 @@ export default async function CaseStudy({
       {/* Next -------------------------------------------------- */}
       <section aria-label={nextLabel} className="section">
         <div className="shell">
-          <a
-            href={`/${locale}/work/${next}/`}
+          <Link
+            href={`/${locale}/work/${next}`}
             className="group flex items-end justify-between gap-6"
           >
             <span className="flex flex-col gap-2">
@@ -184,7 +185,7 @@ export default async function CaseStudy({
               aria-hidden
               className="mb-1.5 size-5 shrink-0 text-muted-foreground transition-transform duration-200 group-hover:-translate-y-1 group-hover:text-[var(--ink-accent)]"
             />
-          </a>
+          </Link>
         </div>
       </section>
     </main>
