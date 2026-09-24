@@ -22,16 +22,26 @@ export const en: Content = {
       "Tech Lead and full-stack engineer in Montevideo. Ten years across fintech, crypto and telemetry — mostly on systems that are not allowed to fall over.",
     currentlyLabel: "Currently",
     currently: [
+      { org: "Contamos", role: "Founder · personal project" },
       { org: "Criptala", role: "Development Lead" },
       { org: "rabbit | iot", role: "Co-Founder & CTO" },
     ],
   },
   work: {
     eyebrow: "Work",
-    title: "Three systems worth explaining",
+    title: "Four systems worth explaining",
     intro:
       "Each of these solved a problem that could not be bought off the shelf.",
     items: [
+      {
+        slug: "contamos",
+        name: "Contamos",
+        years: "2026 — present",
+        summary:
+          "My own product, built alone: a shared ledger for money kept in several currencies, fiat and crypto, where every movement keeps the rate of its day. Claude or ChatGPT can connect to it, answer from the real figures and write movements down.",
+        tags: ["Laravel", "React", "Inertia", "MCP", "Paddle"],
+        result: { count: 4, display: "4 weeks", label: "from first commit to production" },
+      },
       {
         slug: "criptala",
         name: "Criptala",
@@ -127,6 +137,54 @@ export const en: Content = {
     backToWork: "All work",
     nextLabel: "Next project",
     studies: {
+      contamos: {
+        name: "Contamos",
+        role: "Founder & sole engineer",
+        years: "2026 — present",
+        lede: "A personal project: a shared, multi-currency ledger that an AI assistant can read and write, built alone from first commit to production in four weeks.",
+        facts: [
+          { label: "Role", value: "Founder & sole engineer (personal project)" },
+          { label: "Stack", value: "Laravel 13, Inertia, React 19, Filament" },
+          { label: "Services", value: "WorkOS AuthKit, Paddle, Laravel Cloud" },
+          { label: "Status", value: "Live at contamos.xyz" },
+        ],
+        sections: [
+          {
+            heading: "Context",
+            body: [
+              "In Uruguay it is normal to hold money in pesos, dollars and, increasingly, crypto, and to share part of it with a partner or flatmates. Every tool I tried handled that badly: spreadsheets and budgeting apps convert everything into one number at today's rate, so last year's figures quietly change every time the rate does.",
+              "Contamos is my answer, and it is mine alone — a personal project, not a job. It is a shared ledger where each account holds several currencies side by side, every movement keeps the exchange rate of the day it happened, and everyone in the group writes to the same books.",
+            ],
+          },
+          {
+            heading: "Constraint",
+            body: [
+              "One person builds, runs and supports it, so every decision had to keep operations close to zero. Hosting, sign-in and billing are all managed services — Laravel Cloud, WorkOS AuthKit, and Paddle as merchant of record so sales tax is not my problem — and the codebase has to stay small enough to hold in one head.",
+              "It is still money, so the usual rules apply: amounts are exact decimals, never floats; deleting a movement puts the balance back exactly where it was; and the free plan has to be genuinely useful while the paid one stays worth paying for.",
+            ],
+          },
+          {
+            heading: "Approach",
+            body: [
+              "A modular Laravel monolith — identity, finance, catalog, billing — with Inertia and React on top and Filament for the admin. Plan limits are feature flags declared once, so the web app, the pricing page and the API enforce exactly the same rules.",
+              "The part I care most about is the AI. Contamos runs a remote MCP server: Claude or ChatGPT connect with the user's own sign-in, act with exactly the permissions that user has, and get 37 tools to read balances and reports, record and edit movements, and import a bank statement after a dry run the user reviews. Every change they make lands in the activity log marked as the assistant's, and access can be revoked at once.",
+              "It was also built with AI inside the loop, the way the rest of this page describes: project rules the agents must follow, typed interfaces, and around 1,500 tests as the contract that decides whether a change is correct.",
+            ],
+          },
+          {
+            heading: "Outcome",
+            body: [
+              "From the first commit on 29 August 2026 to production at contamos.xyz took about four weeks: bilingual, with a free plan, a paid one, and AI assistants available on both.",
+              "It is early, and this page will get more specific as people use it.",
+            ],
+          },
+        ],
+        meta: {
+          title: "Contamos — a shared ledger your AI assistant can use",
+          description:
+            "A personal project built alone in four weeks: a shared multi-currency ledger with a remote MCP server so Claude or ChatGPT can read and write it.",
+        },
+      },
       criptala: {
         name: "Criptala",
         role: "Development Lead",

@@ -50,7 +50,7 @@ export type Content = {
   cases: CaseContent;
 };
 
-export const CASE_SLUGS = ["criptala", "rabbit-iot", "hexa-rfid"] as const;
+export const CASE_SLUGS = ["contamos", "criptala", "rabbit-iot", "hexa-rfid"] as const;
 export type CaseSlug = (typeof CASE_SLUGS)[number];
 
 export type CaseStudy = {

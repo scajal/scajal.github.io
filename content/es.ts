@@ -24,15 +24,25 @@ export const es: Content = {
       "Tech Lead e ingeniero full-stack en Montevideo. Diez años entre fintech, cripto y telemetría — casi siempre en sistemas que no se pueden caer.",
     currentlyLabel: "Actualmente",
     currently: [
+      { org: "Contamos", role: "Fundador · proyecto personal" },
       { org: "Criptala", role: "Líder de Desarrollo" },
       { org: "rabbit | iot", role: "Co-Fundador y CTO" },
     ],
   },
   work: {
     eyebrow: "Trabajo",
-    title: "Tres sistemas que vale la pena explicar",
+    title: "Cuatro sistemas que vale la pena explicar",
     intro: "Cada uno resolvió un problema que no se podía comprar hecho.",
     items: [
+      {
+        slug: "contamos",
+        name: "Contamos",
+        years: "2026 — presente",
+        summary:
+          "Mi propio producto, construido en solitario: un libro compartido para dinero guardado en varias monedas, fiat y cripto, donde cada movimiento conserva el tipo de cambio de su día. Claude o ChatGPT se pueden conectar, responder con las cifras reales y registrar movimientos.",
+        tags: ["Laravel", "React", "Inertia", "MCP", "Paddle"],
+        result: { count: 4, display: "4 semanas", label: "del primer commit a producción" },
+      },
       {
         slug: "criptala",
         name: "Criptala",
@@ -129,6 +139,54 @@ export const es: Content = {
     backToWork: "Todo el trabajo",
     nextLabel: "Siguiente proyecto",
     studies: {
+      contamos: {
+        name: "Contamos",
+        role: "Fundador e ingeniero único",
+        years: "2026 — presente",
+        lede: "Un proyecto personal: un libro compartido y multimoneda que un asistente de IA puede leer y escribir, construido en solitario del primer commit a producción en cuatro semanas.",
+        facts: [
+          { label: "Rol", value: "Fundador e ingeniero único (proyecto personal)" },
+          { label: "Stack", value: "Laravel 13, Inertia, React 19, Filament" },
+          { label: "Servicios", value: "WorkOS AuthKit, Paddle, Laravel Cloud" },
+          { label: "Estado", value: "En producción en contamos.xyz" },
+        ],
+        sections: [
+          {
+            heading: "Contexto",
+            body: [
+              "En Uruguay es normal tener dinero en pesos, en dólares y, cada vez más, en cripto, y compartir una parte con la pareja o con quienes compartes casa. Todas las herramientas que probé lo resolvían mal: las planillas y las apps de presupuesto convierten todo a un solo número con el tipo de cambio de hoy, así que las cifras del año pasado cambian en silencio cada vez que cambia el tipo de cambio.",
+              "Contamos es mi respuesta, y es solo mía: un proyecto personal, no un trabajo. Es un libro compartido donde cada cuenta guarda varias monedas lado a lado, cada movimiento conserva el tipo de cambio del día en que ocurrió y todo el grupo escribe en los mismos libros.",
+            ],
+          },
+          {
+            heading: "Restricción",
+            body: [
+              "Una sola persona lo construye, lo opera y lo soporta, así que cada decisión tenía que dejar la operación cerca de cero. El hosting, el inicio de sesión y la facturación son servicios gestionados —Laravel Cloud, WorkOS AuthKit y Paddle como merchant of record, para que los impuestos no sean mi problema— y el código tiene que seguir siendo lo bastante pequeño como para tenerlo entero en la cabeza.",
+              "Sigue siendo dinero, así que valen las reglas de siempre: los montos son decimales exactos, nunca floats; borrar un movimiento deja el saldo exactamente donde estaba; y el plan gratuito tiene que ser útil de verdad sin que el pago deje de valer la pena.",
+            ],
+          },
+          {
+            heading: "Enfoque",
+            body: [
+              "Un monolito modular en Laravel —identidad, finanzas, catálogo, facturación— con Inertia y React encima y Filament para la administración. Los límites de cada plan son feature flags declarados una sola vez, así que la app web, la página de precios y la API aplican exactamente las mismas reglas.",
+              "La parte que más me importa es la IA. Contamos corre un servidor MCP remoto: Claude o ChatGPT se conectan con el propio inicio de sesión del usuario, actúan con exactamente los permisos que ese usuario tiene y cuentan con 37 herramientas para leer saldos e informes, registrar y editar movimientos, e importar un estado de cuenta después de una prueba en seco que el usuario revisa. Cada cambio que hacen queda en el registro de actividad marcado como obra del asistente, y el acceso se puede revocar al instante.",
+              "También se construyó con la IA dentro del proceso, como describe el resto de esta página: reglas del proyecto que los agentes deben seguir, interfaces tipadas y cerca de 1.500 tests como el contrato que decide si un cambio es correcto.",
+            ],
+          },
+          {
+            heading: "Resultado",
+            body: [
+              "Del primer commit, el 29 de agosto de 2026, a producción en contamos.xyz pasaron unas cuatro semanas: bilingüe, con un plan gratuito, uno pago y asistentes de IA disponibles en ambos.",
+              "Es temprano, y esta página se va a volver más concreta a medida que la gente lo use.",
+            ],
+          },
+        ],
+        meta: {
+          title: "Contamos — un libro compartido que tu asistente de IA puede usar",
+          description:
+            "Un proyecto personal construido en solitario en cuatro semanas: un libro compartido multimoneda con un servidor MCP remoto para que Claude o ChatGPT lo lean y escriban.",
+        },
+      },
       criptala: {
         name: "Criptala",
         role: "Líder de Desarrollo",
