@@ -8,7 +8,7 @@
  */
 import { BUILT_LOCALES, getContent, type BuiltLocale } from "@/content";
 import { CASE_SLUGS, type CaseSlug } from "@/content/types";
-import { PROFILE, SITE_URL } from "@/lib/site";
+import { PROFILE, PROJECT_SITES, SITE_URL } from "@/lib/site";
 
 export const pageUrl = (locale: string) => `${SITE_URL}/${locale}/`;
 export const pageMd = (locale: string) => `${SITE_URL}/${locale}/index.md`;
@@ -54,6 +54,7 @@ export function homeMarkdown(locale: BuiltLocale): string {
         item.summary,
         "",
         `- Stack: ${item.tags.join(", ")}`,
+        ...website(item.slug),
         `- Case study: ${caseUrl(locale, item.slug)}`,
         `- Case study (Markdown): ${caseMd(locale, item.slug)}`,
       ),
@@ -106,6 +107,13 @@ export function homeMarkdown(locale: BuiltLocale): string {
   );
 }
 
+/** The project's own site as a list line, or nothing when it has none. */
+function website(slug: CaseSlug): string[] {
+  const site = PROJECT_SITES[slug];
+
+  return site ? [`- Website: ${site}`] : [];
+}
+
 /** A single case study, as Markdown. Mirrors app/[locale]/work/[slug]/page.tsx. */
 export function caseMarkdown(locale: BuiltLocale, slug: CaseSlug): string {
   const study = getContent(locale).cases.studies[slug];
@@ -124,6 +132,7 @@ export function caseMarkdown(locale: BuiltLocale, slug: CaseSlug): string {
     `> ${study.lede}`,
     "",
     `- Canonical page: ${caseUrl(locale, slug)}`,
+    ...website(slug),
     `- Years: ${study.years}`,
     // `facts` already carries the role, stack and status, localised.
     facts,

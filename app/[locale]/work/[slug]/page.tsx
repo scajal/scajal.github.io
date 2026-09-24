@@ -4,7 +4,13 @@ import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { notFound } from "next/navigation";
 import { getContent, type BuiltLocale } from "@/content";
 import { CASE_SLUGS, type CaseSlug } from "@/content/types";
-import { DEFAULT_LOCALE, PROFILE, SITE_URL } from "@/lib/site";
+import {
+  DEFAULT_LOCALE,
+  PROFILE,
+  PROJECT_SITES,
+  SITE_URL,
+  siteHost,
+} from "@/lib/site";
 
 export function generateStaticParams() {
   return CASE_SLUGS.map((slug) => ({ slug }));
@@ -54,6 +60,7 @@ export default async function CaseStudy({
   const content = getContent(locale as BuiltLocale);
   const { backToWork, nextLabel, studies } = content.cases;
   const study = studies[slug];
+  const site = PROJECT_SITES[slug];
 
   const order = CASE_SLUGS;
   const next = order[(order.indexOf(slug) + 1) % order.length];
@@ -72,7 +79,11 @@ export default async function CaseStudy({
         inLanguage: locale,
         articleSection: study.sections.map((section) => section.heading),
         author: { "@id": `${SITE_URL}/#person` },
-        about: { "@type": "Organization", name: study.name },
+        about: {
+          "@type": "Organization",
+          name: study.name,
+          ...(site ? { url: site } : {}),
+        },
         creator: {
           "@type": "Person",
           "@id": `${SITE_URL}/#person`,
@@ -128,6 +139,19 @@ export default async function CaseStudy({
         >
           {study.lede}
         </p>
+        {site && (
+          <a
+            href={site}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="fade-up mono mt-6 inline-flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-[var(--ink-accent-text)]"
+            style={{ animationDelay: "240ms" }}
+          >
+            {content.work.visitSite}{" "}
+            <span translate="no">{siteHost(site)}</span>
+            <ArrowUpRight aria-hidden className="size-3.5" />
+          </a>
+        )}
       </div>
 
       {/* Facts ------------------------------------------------- */}

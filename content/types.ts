@@ -1,5 +1,5 @@
 export type WorkCard = {
-  slug: string;
+  slug: CaseSlug;
   name: string;
   years: string;
   summary: string;
@@ -31,7 +31,14 @@ export type Content = {
     currentlyLabel: string;
     currently: { org: string; role: string }[];
   };
-  work: { eyebrow: string; title: string; intro: string; items: WorkCard[] };
+  work: {
+    eyebrow: string;
+    title: string;
+    intro: string;
+    /** Prefix of the link to a project's own site: "Visit". */
+    visitSite: string;
+    items: WorkCard[];
+  };
   ai: {
     eyebrow: string;
     title: string;
@@ -50,7 +57,12 @@ export type Content = {
   cases: CaseContent;
 };
 
-export const CASE_SLUGS = ["contamos", "criptala", "rabbit-iot", "hexa-rfid"] as const;
+export const CASE_SLUGS = [
+  "contamos",
+  "criptala",
+  "rabbit-iot",
+  "hexa-rfid",
+] as const;
 export type CaseSlug = (typeof CASE_SLUGS)[number];
 
 export type CaseStudy = {

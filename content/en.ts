@@ -32,6 +32,7 @@ export const en: Content = {
     title: "Four systems worth explaining",
     intro:
       "Each of these solved a problem that could not be bought off the shelf.",
+    visitSite: "Visit",
     items: [
       {
         slug: "contamos",

@@ -33,6 +33,7 @@ export const es: Content = {
     eyebrow: "Trabajo",
     title: "Cuatro sistemas que vale la pena explicar",
     intro: "Cada uno resolvió un problema que no se podía comprar hecho.",
+    visitSite: "Visitar",
     items: [
       {
         slug: "contamos",

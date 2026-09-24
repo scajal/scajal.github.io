@@ -3,7 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 import { AnimatedValue } from "@/components/animated-value";
 import { Section } from "@/components/section";
 import { BUILT_LOCALES, getContent, type BuiltLocale } from "@/content";
-import { PROFILE, SITE_URL } from "@/lib/site";
+import { PROFILE, PROJECT_SITES, SITE_URL, siteHost } from "@/lib/site";
 
 export function generateStaticParams() {
   return BUILT_LOCALES.map((locale) => ({ locale }));
@@ -135,56 +135,78 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
           <p className="prose-body mt-5">{work.intro}</p>
 
           <ul className="mt-12 flex flex-col">
-            {work.items.map((item) => (
-              <li key={item.slug} className="border-t border-[var(--rule)]">
-                <Link
-                  href={`/${locale}/work/${item.slug}`}
-                  className="group grid gap-x-8 gap-y-3 py-8 md:grid-cols-[minmax(0,15rem)_minmax(0,1fr)]"
+            {work.items.map((item) => {
+              const site = PROJECT_SITES[item.slug];
+
+              return (
+                <li
+                  key={item.slug}
+                  className="group relative border-t border-[var(--rule)]"
                 >
-                  {/* The arrow sits in its own flex cell rather than inline
+                  {/* The case study link is stretched over the whole card
+                    rather than wrapping it, so the project's own site can
+                    be a second, separate link inside the card. */}
+                  <div className="grid gap-x-8 gap-y-3 py-8 md:grid-cols-[minmax(0,15rem)_minmax(0,1fr)]">
+                    {/* The arrow sits in its own flex cell rather than inline
                       after the title: a long name — or a longer translation
                       of it — would otherwise orphan it onto its own line. */}
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <h4 className="text-xl font-medium tracking-tight">
-                        <span className="link decoration-transparent group-hover:decoration-[var(--ink-accent)]">
-                          {item.name}
-                        </span>
-                      </h4>
-                      <p className="mono mt-1 text-subtle-foreground">
-                        {item.years}
-                      </p>
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <h4 className="text-xl font-medium tracking-tight">
+                          <Link
+                            href={`/${locale}/work/${item.slug}`}
+                            className="link decoration-transparent after:absolute after:inset-0 group-hover:decoration-[var(--ink-accent)]"
+                          >
+                            {item.name}
+                          </Link>
+                        </h4>
+                        <p className="mono mt-1 text-subtle-foreground">
+                          {item.years}
+                        </p>
+                      </div>
+                      <ArrowUpRight
+                        aria-hidden
+                        className="mt-1.5 size-4 shrink-0 text-muted-foreground transition-transform duration-200 group-hover:-translate-y-1 group-hover:text-[var(--ink-accent)]"
+                      />
                     </div>
-                    <ArrowUpRight
-                      aria-hidden
-                      className="mt-1.5 size-4 shrink-0 text-muted-foreground transition-transform duration-200 group-hover:-translate-y-1 group-hover:text-[var(--ink-accent)]"
-                    />
-                  </div>
-                  <div>
-                    <p className="text-[clamp(1.75rem,2.6vw,2.25rem)] font-medium leading-none tracking-[-0.04em]">
-                      <AnimatedValue result={item.result} locale={locale} />
-                    </p>
-                    <p className="mono mt-2 text-muted-foreground">
-                      {item.result.label}
-                    </p>
-                    <p className="prose-body mt-5 text-[1rem]">
-                      {item.summary}
-                    </p>
-                    <ul className="mt-5 flex flex-wrap gap-x-2 gap-y-1.5">
-                      {item.tags.map((tag) => (
-                        <li
-                          key={tag}
-                          translate="no"
-                          className="mono rounded-sm border border-[var(--rule)] px-2 py-0.5 text-[0.6875rem] text-muted-foreground"
+                    <div>
+                      <p className="text-[clamp(1.75rem,2.6vw,2.25rem)] font-medium leading-none tracking-[-0.04em]">
+                        <AnimatedValue result={item.result} locale={locale} />
+                      </p>
+                      <p className="mono mt-2 text-muted-foreground">
+                        {item.result.label}
+                      </p>
+                      <p className="prose-body mt-5 text-[1rem]">
+                        {item.summary}
+                      </p>
+                      <ul className="mt-5 flex flex-wrap gap-x-2 gap-y-1.5">
+                        {item.tags.map((tag) => (
+                          <li
+                            key={tag}
+                            translate="no"
+                            className="mono rounded-sm border border-[var(--rule)] px-2 py-0.5 text-[0.6875rem] text-muted-foreground"
+                          >
+                            {tag}
+                          </li>
+                        ))}
+                      </ul>
+                      {site && (
+                        <a
+                          href={site}
+                          target="_blank"
+                          rel="noreferrer noopener"
+                          className="mono relative z-10 mt-5 inline-flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-[var(--ink-accent-text)]"
                         >
-                          {tag}
-                        </li>
-                      ))}
-                    </ul>
+                          {work.visitSite}{" "}
+                          <span translate="no">{siteHost(site)}</span>
+                          <ArrowUpRight aria-hidden className="size-3.5" />
+                        </a>
+                      )}
+                    </div>
                   </div>
-                </Link>
-              </li>
-            ))}
+                </li>
+              );
+            })}
           </ul>
         </Section>
 
