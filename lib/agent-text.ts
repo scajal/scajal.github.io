@@ -8,6 +8,7 @@
  */
 import { BUILT_LOCALES, getContent, type BuiltLocale } from "@/content";
 import { CASE_SLUGS, type CaseSlug } from "@/content/types";
+import { feedUrl, getLivePosts, postMarkdown, postMd } from "@/lib/blog";
 import { PROFILE, PROJECT_SITES, SITE_URL } from "@/lib/site";
 
 export const pageUrl = (locale: string) => `${SITE_URL}/${locale}/`;
@@ -162,12 +163,27 @@ export function llmsIndex(): string {
         }`,
     ).join("\n");
 
+    const posts = getLivePosts(locale);
+    const blog = posts.length
+      ? [
+          "",
+          `### ${content.blog.title}`,
+          "",
+          ...posts.map(
+            (post) =>
+              `- [${post.title}](${postMd(locale, post.slug)}) (${post.published}): ${post.description}`,
+          ),
+          `- [RSS](${feedUrl(locale)})`,
+        ]
+      : [];
+
     return lines(
       `## ${locale === "en" ? "English" : "Español"} (${locale})`,
       "",
       `- [${content.meta.title}](${pageMd(locale)}): ${content.meta.description}`,
       cases,
-      `- [Everything, one file](${SITE_URL}/${locale}/llms-full.txt): the page and all case studies concatenated.`,
+      `- [Everything, one file](${SITE_URL}/${locale}/llms-full.txt): the page, all case studies and all blog posts concatenated.`,
+      ...blog,
     );
   }).join("\n\n");
 
@@ -195,5 +211,6 @@ export function llmsFull(locale: BuiltLocale): string {
   return [
     homeMarkdown(locale),
     ...CASE_SLUGS.map((slug) => caseMarkdown(locale, slug)),
+    ...getLivePosts(locale).map(postMarkdown),
   ].join("\n---\n\n");
 }

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && node scripts/fix-og.mjs && node scripts/style-sitemap.mjs && node scripts/strip-next-runtime.mjs",
+    "build": "next build && node scripts/fix-og.mjs && node scripts/style-sitemap.mjs && node scripts/strip-next-runtime.mjs && node scripts/prune-scheduled.mjs",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit"
@@ -13,7 +13,9 @@
     "@base-ui/react": "^1.7.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "gray-matter": "^4.0.3",
     "lucide-react": "^1.34.0",
+    "marked": "^18.0.14",
     "next": "16.3.3",
     "react": "19.2.8",
     "react-dom": "19.2.8",

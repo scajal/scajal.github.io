@@ -4,6 +4,11 @@ on:
   push:
     branches: ["main"]
   workflow_dispatch:
+  # Blog posts are scheduled by their date, and a static export only knows
+  # what was out when it was built. A daily rebuild is what publishes them:
+  # 10:00 UTC is 07:00 in Montevideo, the timezone post dates are read in.
+  schedule:
+    - cron: "0 10 * * *"
 
 permissions:
   contents: read

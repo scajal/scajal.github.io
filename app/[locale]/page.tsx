@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { AnimatedValue } from "@/components/animated-value";
+import { PostList } from "@/components/post-list";
 import { Section } from "@/components/section";
+import { getPosts } from "@/lib/blog";
 import { BUILT_LOCALES, getContent, type BuiltLocale } from "@/content";
 import { PROFILE, PROJECT_SITES, SITE_URL, siteHost } from "@/lib/site";
 
@@ -12,7 +14,8 @@ export function generateStaticParams() {
 export default async function Home({ params }: PageProps<"/[locale]">) {
   const { locale } = await params;
   const content = getContent(locale as BuiltLocale);
-  const { hero, work, ai, past, contact } = content;
+  const { hero, work, ai, past, contact, blog } = content;
+  const posts = getPosts(locale as BuiltLocale).slice(0, 3);
 
   // One @graph rather than a bare Person: agents and rich-result parsers can
   // follow @id references from the page to the person to the work, which a
@@ -257,6 +260,23 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
             {past.education}
           </p>
         </Section>
+
+        {/* Writing --------------------------------------------- */}
+        {posts.length > 0 && (
+          <Section id="writing" eyebrow={blog.eyebrow}>
+            <h3 className="section-title">{blog.sectionTitle}</h3>
+            <div className="mt-10">
+              <PostList locale={locale} posts={posts} blog={blog} heading="h4" />
+            </div>
+            <Link
+              href={`/${locale}/blog`}
+              className="link mono mt-8 inline-flex items-center gap-1.5 text-muted-foreground hover:text-foreground"
+            >
+              {blog.allPosts}
+              <ArrowUpRight aria-hidden className="size-3.5" />
+            </Link>
+          </Section>
+        )}
 
         {/* Contact --------------------------------------------- */}
         <Section id="contact" eyebrow={contact.eyebrow}>

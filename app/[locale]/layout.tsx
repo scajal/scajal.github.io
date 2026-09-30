@@ -7,6 +7,7 @@ import { SiteChrome } from "@/components/site-chrome";
 import { CSP } from "@/lib/csp";
 import { enhanceScript } from "@/lib/enhance-script";
 import { BUILT_LOCALES, getContent, type BuiltLocale } from "@/content";
+import { getPosts } from "@/lib/blog";
 import { PROFILE, SITE_URL } from "@/lib/site";
 
 export const viewport: Viewport = {
@@ -62,7 +63,7 @@ export default async function RootLayout({
 }: LayoutProps<"/[locale]">) {
   const { locale } = await params;
   if (!isBuilt(locale)) notFound();
-  const { nav, footer } = getContent(locale);
+  const { nav, footer, blog } = getContent(locale);
 
   return (
     <html
@@ -88,7 +89,11 @@ export default async function RootLayout({
           {nav.skipToContent}
         </a>
 
-        <SiteChrome locale={locale} themeLabel={nav.themeToggle} />
+        <SiteChrome
+          locale={locale}
+          themeLabel={nav.themeToggle}
+          blogLabel={getPosts(locale).length ? blog.title : undefined}
+        />
 
         {children}
 

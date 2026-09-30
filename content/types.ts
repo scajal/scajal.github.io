@@ -55,6 +55,30 @@ export type Content = {
   };
   footer: { built: string };
   cases: CaseContent;
+  blog: BlogContent;
+};
+
+export type BlogContent = {
+  /** Label of the link in the site header, and the index page's h1. */
+  title: string;
+  /** Title tag of the index page. */
+  metaTitle: string;
+  /** Under the index page's title, and its meta description. */
+  description: string;
+  /** Home page section. */
+  eyebrow: string;
+  sectionTitle: string;
+  allPosts: string;
+  /** "{minutes} min read" */
+  minutesRead: string;
+  published: string;
+  updated: string;
+  scheduled: string;
+  onThisPage: string;
+  keepReading: string;
+  backToBlog: string;
+  rss: string;
+  empty: { title: string; body: string };
 };
 
 export const CASE_SLUGS = [

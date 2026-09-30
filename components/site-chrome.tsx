@@ -10,9 +10,12 @@ import { BUILT_LOCALES } from "@/content";
 export function SiteChrome({
   locale,
   themeLabel,
+  blogLabel,
 }: {
   locale: string;
   themeLabel: string;
+  /** Left out until the blog has a post to show. */
+  blogLabel?: string;
 }) {
   return (
     <header className="shell flex items-center justify-between gap-4 py-6">
@@ -28,6 +31,14 @@ export function SiteChrome({
       </Link>
 
       <div className="flex items-center gap-4">
+        {blogLabel && (
+          <Link
+            href={`/${locale}/blog`}
+            className="mono text-muted-foreground transition-colors hover:text-foreground"
+          >
+            {blogLabel}
+          </Link>
+        )}
         <nav aria-label="Language" className="flex items-center gap-1.5">
           {LOCALES.map((code: Locale, i) => {
             const current = code === locale;

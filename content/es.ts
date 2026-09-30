@@ -136,6 +136,27 @@ export const es: Content = {
   footer: {
     built: "Hecho con Next.js. Compuesto en Switzer y Geist Mono.",
   },
+  blog: {
+    title: "Blog",
+    metaTitle: "Blog — Santiago Cajal",
+    description:
+      "Notas de construir plataformas de fintech, cripto y telemetría: dinero en bases de datos, libros contables, LoRaWAN, multi-tenancy e IA dentro del proceso.",
+    eyebrow: "Escritos",
+    sectionTitle: "Notas del trabajo",
+    allPosts: "Todos los artículos",
+    minutesRead: "{minutes} min de lectura",
+    published: "Publicado",
+    updated: "Actualizado",
+    scheduled: "Programado",
+    onThisPage: "En esta página",
+    keepReading: "Seguir leyendo",
+    backToBlog: "Todos los artículos",
+    rss: "RSS",
+    empty: {
+      title: "Todavía no hay nada",
+      body: "El primer artículo está en camino.",
+    },
+  },
   cases: {
     backToWork: "Todo el trabajo",
     nextLabel: "Siguiente proyecto",

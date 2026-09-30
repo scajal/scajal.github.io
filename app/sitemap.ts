@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { BUILT_LOCALES } from "@/content";
 import { CASE_SLUGS } from "@/content/types";
+import { getLivePosts, lastModified, postUrl, versions } from "@/lib/blog";
 import { gitLastModified } from "@/lib/last-modified";
 import { DEFAULT_LOCALE, SITE_URL } from "@/lib/site";
 
@@ -61,5 +62,46 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
   );
 
-  return [...home, ...cases];
+  // Only languages with a post out get a blog index, and it is as recent as
+  // its newest post.
+  const blogs = BUILT_LOCALES.flatMap((locale) => {
+    const posts = getLivePosts(locale);
+    if (!posts.length) return [];
+    return [
+      {
+        url: `${SITE_URL}/${locale}/blog/`,
+        lastModified: posts.map(lastModified).sort().at(-1),
+        changeFrequency: "weekly" as const,
+        priority: 0.8,
+        alternates: alternates(
+          `/${locale}/blog`,
+          `${SITE_URL}/${DEFAULT_LOCALE}/blog/`,
+        ),
+      },
+    ];
+  });
+
+  // A post's alternates are its translations, which live under other slugs,
+  // so they cannot be derived from the path the way the pages above are.
+  const posts = BUILT_LOCALES.flatMap((locale) =>
+    getLivePosts(locale).map((post) => {
+      const found = versions(post);
+      const languages: Record<string, string> = Object.fromEntries(
+        Object.entries(found).map(([l, slug]) => [l, postUrl(l, slug)]),
+      );
+      languages["x-default"] = found[DEFAULT_LOCALE]
+        ? postUrl(DEFAULT_LOCALE, found[DEFAULT_LOCALE])
+        : postUrl(locale, post.slug);
+
+      return {
+        url: postUrl(locale, post.slug),
+        lastModified: lastModified(post),
+        changeFrequency: "monthly" as const,
+        priority: 0.6,
+        alternates: { languages },
+      };
+    }),
+  );
+
+  return [...home, ...cases, ...blogs, ...posts];
 }
