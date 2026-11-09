@@ -7,7 +7,7 @@ translations: {"en": "claude-code-on-a-real-codebase"}
 
 Usar Claude Code en un proyecto real depende menos de los prompts que del repositorio. El modelo lee lo que el proyecto le da: el archivo de reglas, las convenciones de los archivos vecinos, los tipos, los tests. Cuando eso está claro, el agente escribe código que encaja. Cuando falta, ningún prompt ingenioso lo compensa.
 
-Esa es la versión corta de cómo construí [Contamos](/es/work/contamos/), un libro compartido multimoneda, solo y [en unas cuatro semanas desde el primer commit hasta producción](/es/blog/lanzar-un-saas-solo-en-cuatro-semanas/). Claude Code estuvo en el circuito desde el primer commit, que ya incluía las instrucciones para los agentes. Lo que hizo que eso fuera seguro no fue el modelo, sino el contexto a su alrededor. Este artículo recorre esa configuración, pieza por pieza, con ejemplos reales de ese repositorio.
+Esa es la versión corta de cómo construí [Contamos](/es/work/contamos/), un libro compartido multimoneda, solo y [en unas cuatro semanas desde el primer commit hasta producción](/es/blog/lanzar-un-saas-solo-en-cuatro-semanas/). Claude Code estuvo en el circuito desde el primer commit, que ya incluía las instrucciones para los agentes. Lo que hizo que eso fuera seguro no fue el modelo, sino el contexto a su alrededor. Este artículo recorre esa configuración, pieza por pieza, con ejemplos reales de [ese repositorio](https://github.com/scajal/contamos), que ahora es de código abierto.
 
 ## Qué va en CLAUDE.md y qué queda afuera
 

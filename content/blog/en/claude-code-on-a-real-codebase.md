@@ -7,7 +7,7 @@ translations: {"es": "claude-code-en-un-proyecto-real"}
 
 The Claude Code workflow that works on a real codebase has less to do with prompts than with the repository. The model reads what the project gives it: the rules file, the conventions in sibling files, the types, the tests. When those are clear, the agent writes code that fits. When they are missing, no amount of clever prompting makes up for it.
 
-That is the short version of how I built [Contamos](/en/work/contamos/), a multi-currency shared ledger, alone and [from first commit to production in about four weeks](/en/blog/shipping-a-saas-alone-in-four-weeks/). Claude Code was part of the loop from the first commit, which already shipped the agent instructions. What made that safe was not the model. It was the context around it. This post is the setup, piece by piece, with real examples from that repository.
+That is the short version of how I built [Contamos](/en/work/contamos/), a multi-currency shared ledger, alone and [from first commit to production in about four weeks](/en/blog/shipping-a-saas-alone-in-four-weeks/). Claude Code was part of the loop from the first commit, which already shipped the agent instructions. What made that safe was not the model. It was the context around it. This post is the setup, piece by piece, with real examples from [that repository](https://github.com/scajal/contamos), which is now open source.
 
 ## What goes in CLAUDE.md, and what stays out
 

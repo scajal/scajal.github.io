@@ -24,7 +24,6 @@ export const es: Content = {
       "Tech Lead e ingeniero full-stack en Montevideo. Diez años entre fintech, cripto y telemetría — casi siempre en sistemas que no se pueden caer.",
     currentlyLabel: "Actualmente",
     currently: [
-      { org: "Contamos", role: "Fundador · proyecto personal" },
       { org: "Criptala", role: "Líder de Desarrollo" },
       { org: "rabbit | iot", role: "Co-Fundador y CTO" },
     ],
@@ -38,10 +37,10 @@ export const es: Content = {
       {
         slug: "contamos",
         name: "Contamos",
-        years: "2026 — presente",
+        years: "2026",
         summary:
-          "Mi propio producto, construido en solitario: un libro compartido para dinero guardado en varias monedas, fiat y cripto, donde cada movimiento conserva el tipo de cambio de su día. Claude o ChatGPT se pueden conectar, responder con las cifras reales y registrar movimientos.",
-        tags: ["Laravel", "React", "Inertia", "MCP", "Paddle"],
+          "Mi propio producto, construido en solitario: un libro compartido para dinero guardado en varias monedas, fiat y cripto, donde cada movimiento conserva el tipo de cambio de su día. Claude o ChatGPT se pueden conectar, responder con las cifras reales y registrar movimientos. Ahora es código abierto, con licencia MIT.",
+        tags: ["Laravel", "React", "Inertia", "MCP", "Código abierto"],
         result: { count: 4, display: "4 semanas", label: "del primer commit a producción" },
       },
       {
@@ -164,13 +163,13 @@ export const es: Content = {
       contamos: {
         name: "Contamos",
         role: "Fundador e ingeniero único",
-        years: "2026 — presente",
-        lede: "Un proyecto personal: un libro compartido y multimoneda que un asistente de IA puede leer y escribir, construido en solitario del primer commit a producción en cuatro semanas.",
+        years: "2026",
+        lede: "Un proyecto personal: un libro compartido y multimoneda que un asistente de IA puede leer y escribir, construido en solitario del primer commit a producción en cuatro semanas, y ahora de código abierto.",
         facts: [
           { label: "Rol", value: "Fundador e ingeniero único (proyecto personal)" },
           { label: "Stack", value: "Laravel 13, Inertia, React 19, Filament" },
           { label: "Servicios", value: "WorkOS AuthKit, Paddle, Laravel Cloud" },
-          { label: "Estado", value: "En producción en contamos.xyz" },
+          { label: "Estado", value: "Código abierto (MIT)" },
         ],
         sections: [
           {
@@ -199,14 +198,14 @@ export const es: Content = {
             heading: "Resultado",
             body: [
               "Del primer commit, el 29 de agosto de 2026, a producción en contamos.xyz pasaron unas cuatro semanas: bilingüe, con un plan gratuito, uno pago y asistentes de IA disponibles en ambos.",
-              "Es temprano, y esta página se va a volver más concreta a medida que la gente lo use.",
+              "El servicio alojado funcionó hasta noviembre de 2026, cuando lo cerré. El código completo está ahora en GitHub con licencia MIT: la app, el servidor MCP, las reglas para agentes con las que se construyó y la suite de tests. Se publica tal como estaba, sin mantenimiento activo, para que cualquiera lo ejecute, lo bifurque o lo lea.",
             ],
           },
         ],
         meta: {
           title: "Contamos — un libro compartido que tu asistente de IA puede usar",
           description:
-            "Un proyecto personal construido en solitario en cuatro semanas: un libro compartido multimoneda con un servidor MCP remoto para que Claude o ChatGPT lo lean y escriban.",
+            "Un proyecto personal construido en solitario en cuatro semanas, ahora de código abierto: un libro compartido multimoneda con un servidor MCP remoto para que Claude o ChatGPT lo lean y escriban.",
         },
       },
       criptala: {

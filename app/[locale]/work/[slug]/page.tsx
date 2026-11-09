@@ -9,7 +9,7 @@ import {
   PROFILE,
   PROJECT_SITES,
   SITE_URL,
-  siteHost,
+  siteLabel,
 } from "@/lib/site";
 
 export function generateStaticParams() {
@@ -148,7 +148,7 @@ export default async function CaseStudy({
             style={{ animationDelay: "240ms" }}
           >
             {content.work.visitSite}{" "}
-            <span translate="no">{siteHost(site)}</span>
+            <span translate="no">{siteLabel(site)}</span>
             <ArrowUpRight aria-hidden className="size-3.5" />
           </a>
         )}

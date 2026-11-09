@@ -22,7 +22,6 @@ export const en: Content = {
       "Tech Lead and full-stack engineer in Montevideo. Ten years across fintech, crypto and telemetry — mostly on systems that are not allowed to fall over.",
     currentlyLabel: "Currently",
     currently: [
-      { org: "Contamos", role: "Founder · personal project" },
       { org: "Criptala", role: "Development Lead" },
       { org: "rabbit | iot", role: "Co-Founder & CTO" },
     ],
@@ -37,10 +36,10 @@ export const en: Content = {
       {
         slug: "contamos",
         name: "Contamos",
-        years: "2026 — present",
+        years: "2026",
         summary:
-          "My own product, built alone: a shared ledger for money kept in several currencies, fiat and crypto, where every movement keeps the rate of its day. Claude or ChatGPT can connect to it, answer from the real figures and write movements down.",
-        tags: ["Laravel", "React", "Inertia", "MCP", "Paddle"],
+          "My own product, built alone: a shared ledger for money kept in several currencies, fiat and crypto, where every movement keeps the rate of its day. Claude or ChatGPT can connect to it, answer from the real figures and write movements down. Now open source under the MIT license.",
+        tags: ["Laravel", "React", "Inertia", "MCP", "Open source"],
         result: { count: 4, display: "4 weeks", label: "from first commit to production" },
       },
       {
@@ -162,13 +161,13 @@ export const en: Content = {
       contamos: {
         name: "Contamos",
         role: "Founder & sole engineer",
-        years: "2026 — present",
-        lede: "A personal project: a shared, multi-currency ledger that an AI assistant can read and write, built alone from first commit to production in four weeks.",
+        years: "2026",
+        lede: "A personal project: a shared, multi-currency ledger that an AI assistant can read and write, built alone from first commit to production in four weeks, and now open source.",
         facts: [
           { label: "Role", value: "Founder & sole engineer (personal project)" },
           { label: "Stack", value: "Laravel 13, Inertia, React 19, Filament" },
           { label: "Services", value: "WorkOS AuthKit, Paddle, Laravel Cloud" },
-          { label: "Status", value: "Live at contamos.xyz" },
+          { label: "Status", value: "Open source (MIT)" },
         ],
         sections: [
           {
@@ -197,14 +196,14 @@ export const en: Content = {
             heading: "Outcome",
             body: [
               "From the first commit on 29 August 2026 to production at contamos.xyz took about four weeks: bilingual, with a free plan, a paid one, and AI assistants available on both.",
-              "It is early, and this page will get more specific as people use it.",
+              "The hosted service ran until November 2026, when I shut it down. The complete source is now on GitHub under the MIT license: the app, the MCP server, the agent rules it was built with and the test suite. It is published as it was, not actively maintained, for anyone to run, fork or read.",
             ],
           },
         ],
         meta: {
           title: "Contamos — a shared ledger your AI assistant can use",
           description:
-            "A personal project built alone in four weeks: a shared multi-currency ledger with a remote MCP server so Claude or ChatGPT can read and write it.",
+            "A personal project built alone in four weeks, now open source: a shared multi-currency ledger with a remote MCP server so Claude or ChatGPT can read and write it.",
         },
       },
       criptala: {

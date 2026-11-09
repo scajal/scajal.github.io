@@ -5,7 +5,7 @@ import { PostList } from "@/components/post-list";
 import { Section } from "@/components/section";
 import { getPosts } from "@/lib/blog";
 import { BUILT_LOCALES, getContent, type BuiltLocale } from "@/content";
-import { PROFILE, PROJECT_SITES, SITE_URL, siteHost } from "@/lib/site";
+import { PROFILE, PROJECT_SITES, SITE_URL, siteLabel } from "@/lib/site";
 
 export function generateStaticParams() {
   return BUILT_LOCALES.map((locale) => ({ locale }));
@@ -201,7 +201,7 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
                           className="mono relative z-10 mt-5 inline-flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-[var(--ink-accent-text)]"
                         >
                           {work.visitSite}{" "}
-                          <span translate="no">{siteHost(site)}</span>
+                          <span translate="no">{siteLabel(site)}</span>
                           <ArrowUpRight aria-hidden className="size-3.5" />
                         </a>
                       )}
