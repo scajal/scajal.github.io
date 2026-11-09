@@ -7,7 +7,7 @@ translations: {"es": "guardar-dinero-en-una-base-de-datos"}
 
 To store money in a database, use an exact type: a `DECIMAL` column with enough decimal places for the currencies you handle, or an integer that counts the currency's smallest unit. Never use `FLOAT` or `DOUBLE`. Then keep the amount exact on the way out as well, because most of the damage in a PHP application happens after the value has left the database, not in the column itself.
 
-That is the short answer. The rest of this post is what I have learned applying it to two systems that hold real money: Criptala, a crypto trading and payments platform, and Contamos, a shared ledger for money kept in several currencies.
+That is the short answer. The rest of this post is what I have learned applying it to systems that hold real money, including Contamos, a shared ledger for money kept in several currencies.
 
 ## Why floats are wrong for money
 
@@ -40,9 +40,9 @@ Integer minor units are what many payment APIs use. [Stripe](https://docs.stripe
 
 It breaks down with crypto. Ether has 18 decimal places. A signed `BIGINT` tops out at about 9.22 × 10¹⁸, which in wei is roughly 9.22 ETH. A column that cannot hold ten ether is not a money column.
 
-This is why both of my systems use `DECIMAL`:
+This is why I use `DECIMAL` for money. The scale is the decision:
 
-- **Criptala** stores amounts, subtotals and exchange rates as `DECIMAL(19, 8)` or `DECIMAL(20, 8)`. Eight decimal places covers bitcoin's smallest unit, the satoshi, and every fiat currency the platform settles in.
+- **Eight decimal places** cover bitcoin's smallest unit, the satoshi, and every fiat currency. That is enough for a system that handles only bitcoin and fiat.
 - **Contamos** stores every amount and every exchange rate as `DECIMAL(36, 18)`, and each balance as `DECIMAL(38, 18)`. Eighteen decimal places covers any token a user might hold, and the balance gets two extra integer digits because it is a running sum.
 
 In MySQL, `DECIMAL` allows up to 65 digits in total and up to 30 after the point, and the storage cost grows with the digits you declare, not the value you store. Pick the scale from the smallest unit you will ever need, and the precision from the largest total you will ever sum.
@@ -81,7 +81,7 @@ Storing exact values does not remove rounding. Division still produces digits yo
 Three rules have held up for me:
 
 1. **Round once, at a boundary.** Keep full precision through a calculation and round when the value is stored, paid or shown. Rounding intermediate results compounds the error.
-2. **Choose the rounding mode on purpose.** Half-up is what most people expect on a receipt. Half-even, also called banker's rounding, sends ties to the even neighbour, so ties do not drift in one direction across many operations. Most of Criptala's arithmetic uses half-even.
+2. **Choose the rounding mode on purpose.** Half-up is what most people expect on a receipt. Half-even, also called banker's rounding, sends ties to the even neighbour, so ties do not drift in one direction across many operations.
 3. **Account for the remainder.** When one amount is split into parts, the parts have to add back up to the original. Give the leftover units to one of the parts rather than letting them disappear.
 
 ## Money in PHP: the pitfalls
@@ -105,7 +105,7 @@ $net = bcsub($income, $expenses, 18);
 
 PHP 8.4 also added `bcround()` and an object API, `BcMath\Number`, if you prefer operators to function calls.
 
-**[brick/math](https://github.com/brick/math)** gives you an immutable `BigDecimal` with explicit rounding modes. Criptala uses it throughout:
+**[brick/math](https://github.com/brick/math)** gives you an immutable `BigDecimal` with explicit rounding modes:
 
 ```php
 use Brick\Math\BigDecimal;

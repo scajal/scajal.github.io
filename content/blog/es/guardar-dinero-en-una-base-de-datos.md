@@ -7,7 +7,7 @@ translations: {"en": "store-money-in-a-database"}
 
 Para guardar dinero en una base de datos hay que usar un tipo exacto: una columna `DECIMAL` con los decimales suficientes para las monedas que se manejan, o un entero que cuente la unidad mínima de cada moneda. Nunca `FLOAT` ni `DOUBLE`. Y después hay que mantener el monto exacto a la salida, porque en una aplicación PHP la mayor parte del daño ocurre cuando el valor ya salió de la base, no en la columna.
 
-Esa es la respuesta corta. El resto del artículo es lo que aprendí aplicándola en dos sistemas que manejan dinero real: Criptala, una plataforma de trading y pagos en cripto, y Contamos, un libro compartido para dinero guardado en varias monedas.
+Esa es la respuesta corta. El resto del artículo es lo que aprendí aplicándola en sistemas que manejan dinero real, entre ellos Contamos, un libro compartido para dinero guardado en varias monedas.
 
 ## Por qué no usar float para dinero
 
@@ -40,9 +40,9 @@ Los enteros en unidades mínimas son lo que usan muchas APIs de pago. [Stripe](h
 
 Con cripto deja de funcionar. Ether tiene 18 decimales. Un `BIGINT` con signo llega a unos 9,22 × 10¹⁸, que en wei son apenas 9,22 ETH. Una columna que no puede guardar diez ether no sirve para dinero.
 
-Por eso mis dos sistemas usan `DECIMAL`:
+Por eso uso `DECIMAL` para el dinero. La decisión es la escala:
 
-- **Criptala** guarda montos, subtotales y tipos de cambio como `DECIMAL(19, 8)` o `DECIMAL(20, 8)`. Ocho decimales cubren el satoshi, la unidad mínima de bitcoin, y todas las monedas fiat con las que liquida la plataforma.
+- **Ocho decimales** cubren el satoshi, la unidad mínima de bitcoin, y todas las monedas fiat. Alcanzan para un sistema que solo maneja bitcoin y fiat.
 - **Contamos** guarda cada monto y cada tipo de cambio como `DECIMAL(36, 18)`, y cada saldo como `DECIMAL(38, 18)`. Dieciocho decimales cubren cualquier token que alguien pueda tener, y el saldo tiene dos dígitos enteros más porque es una suma acumulada.
 
 En MySQL, `DECIMAL` admite hasta 65 dígitos en total y hasta 30 después de la coma, y lo que ocupa depende de los dígitos declarados, no del valor guardado. La escala se elige según la unidad más pequeña que se vaya a necesitar, y la precisión según el total más grande que se vaya a sumar.
@@ -81,7 +81,7 @@ Guardar valores exactos no elimina el redondeo. Dividir sigue produciendo dígit
 Hay tres reglas que me funcionaron:
 
 1. **Redondear una sola vez, en un borde.** Mantener la precisión completa durante el cálculo y redondear cuando el valor se guarda, se paga o se muestra. Redondear resultados intermedios acumula el error.
-2. **Elegir el modo de redondeo a propósito.** Hacia arriba desde la mitad (*half-up*) es lo que la mayoría espera ver en un recibo. El redondeo al par (*half-even*, o redondeo bancario) manda los empates al vecino par, así que no se desvían siempre hacia el mismo lado a lo largo de muchas operaciones. La mayor parte de la aritmética de Criptala usa *half-even*.
+2. **Elegir el modo de redondeo a propósito.** Hacia arriba desde la mitad (*half-up*) es lo que la mayoría espera ver en un recibo. El redondeo al par (*half-even*, o redondeo bancario) manda los empates al vecino par, así que no se desvían siempre hacia el mismo lado a lo largo de muchas operaciones.
 3. **No perder el resto.** Cuando un monto se reparte en partes, las partes tienen que volver a sumar el original. Las unidades que sobran se asignan a alguna de las partes en lugar de dejar que desaparezcan.
 
 ## Dinero en PHP: los errores más comunes
@@ -105,7 +105,7 @@ $net = bcsub($income, $expenses, 18);
 
 PHP 8.4 agregó además `bcround()` y una API de objetos, `BcMath\Number`, para quien prefiera operadores a llamadas a funciones.
 
-**[brick/math](https://github.com/brick/math)** ofrece un `BigDecimal` inmutable con modos de redondeo explícitos. Criptala lo usa en todos lados:
+**[brick/math](https://github.com/brick/math)** ofrece un `BigDecimal` inmutable con modos de redondeo explícitos:
 
 ```php
 use Brick\Math\BigDecimal;

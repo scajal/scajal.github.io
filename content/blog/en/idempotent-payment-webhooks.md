@@ -7,7 +7,7 @@ translations: {"es": "webhooks-de-pago-idempotentes"}
 
 A payment webhook will arrive more than once. Providers retry when your endpoint is slow, when it returns an error, and sometimes when it did neither. Handling payment webhooks idempotently means that the second, third or tenth delivery of the same event changes nothing: no second credit, no second email, no second row.
 
-The short answer for Laravel: verify the signature, store each event under the provider's unique event id with a database unique constraint, answer fast, and do the work in a queued job that checks and changes state in one atomic step. The rest of this post is why each of those steps is there, with code, and with examples from two systems I work on: Contamos, which bills through Paddle, and Criptala, a crypto trading and payments platform.
+The short answer for Laravel: verify the signature, store each event under the provider's unique event id with a database unique constraint, answer fast, and do the work in a queued job that checks and changes state in one atomic step. The rest of this post is why each of those steps is there, with code, and with examples from Contamos, which bills through Paddle.
 
 ## Why webhooks arrive twice
 
@@ -179,12 +179,12 @@ Webhooks are a notification, not a source of truth. Endpoints go down, secrets g
 
 ## Fiat reversals vs on-chain payments
 
-At Criptala, fiat and crypto rails sit behind one API, and they fail differently. A bank transfer or card payment can be reversed days later. A confirmed on-chain transaction cannot be reversed at all. That changes how a webhook handler must think:
+If you take both fiat and crypto payments, the two fail differently. A bank transfer or card payment can be reversed days later. A confirmed on-chain transaction cannot be reversed at all. That changes how a webhook handler must think:
 
 - **Fiat:** a "completed" event is not final. The model needs a later state for reversals and chargebacks, and money released on "completed" must be recoverable, which is much easier in a ledger where [every movement can be reverted exactly](/en/blog/multi-currency-ledger-design/).
 - **Crypto:** the confirmation is final, so the risk is the opposite: crediting twice, or crediting the wrong order. A credit that goes out twice cannot be pulled back.
 
-Two patterns from that codebase, at an architectural level. First, a webhook whose payment is already in the target state returns success immediately. An earlier version answered that case with a validation error, which only made the provider retry. Second, each provider reference is attached to exactly one payment. If a webhook arrives with a reference that another payment already owns, that is raised as an alert, never applied as a second credit.
+Two patterns follow from that. First, a webhook whose payment is already in the target state should return success immediately. Answering it with an error only makes the provider retry. Second, attach each provider reference to exactly one payment. A webhook that arrives with a reference another payment already owns should raise an alert, never be applied as a second credit.
 
 ## A checklist for payment webhooks
 
@@ -197,4 +197,4 @@ Two patterns from that codebase, at an architectural level. First, a webhook who
 - Reconcile against the provider's API on a schedule.
 - Model reversals for fiat; guard against double credit for crypto.
 
-The common thread is that the database decides, not the code before it. For how this fits in a whole platform, see the [Criptala case study](/en/work/criptala/).
+The common thread is that the database decides, not the code before it.

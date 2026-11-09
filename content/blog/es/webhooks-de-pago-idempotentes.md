@@ -7,7 +7,7 @@ translations: {"en": "idempotent-payment-webhooks"}
 
 Un webhook de pago va a llegar más de una vez. Los proveedores reintentan cuando el endpoint tarda, cuando devuelve un error y, a veces, cuando no pasó ninguna de las dos cosas. Procesar webhooks de pago de forma idempotente significa que la segunda, tercera o décima entrega del mismo evento no cambia nada: ni un segundo crédito, ni un segundo correo, ni una segunda fila.
 
-La respuesta corta para Laravel: verificar la firma, guardar cada evento con el id único que le da el proveedor y una restricción única en la base de datos, responder rápido, y hacer el trabajo en un job en cola que verifique y cambie el estado en un solo paso atómico. El resto del artículo explica por qué está cada paso, con código y con ejemplos de dos sistemas en los que trabajo: Contamos, que cobra a través de Paddle, y Criptala, una plataforma de trading y pagos en cripto.
+La respuesta corta para Laravel: verificar la firma, guardar cada evento con el id único que le da el proveedor y una restricción única en la base de datos, responder rápido, y hacer el trabajo en un job en cola que verifique y cambie el estado en un solo paso atómico. El resto del artículo explica por qué está cada paso, con código y con ejemplos de Contamos, que cobra a través de Paddle.
 
 ## Por qué un webhook llega dos veces
 
@@ -179,12 +179,12 @@ Los webhooks son una notificación, no la fuente de verdad. Los endpoints se cae
 
 ## Reversos en fiat y pagos on-chain
 
-En Criptala, los rieles fiat y cripto conviven detrás de una sola API, y fallan de maneras distintas. Una transferencia bancaria o un pago con tarjeta se pueden revertir días después. Una transacción on-chain confirmada no se puede revertir nunca. Eso cambia cómo tiene que pensar un handler de webhooks:
+Si recibes pagos fiat y cripto, los dos fallan de maneras distintas. Una transferencia bancaria o un pago con tarjeta se pueden revertir días después. Una transacción on-chain confirmada no se puede revertir nunca. Eso cambia cómo tiene que pensar un handler de webhooks:
 
 - **Fiat:** un evento "completado" no es definitivo. El modelo necesita un estado posterior para reversos y contracargos, y el dinero liberado al "completado" tiene que poder recuperarse, algo mucho más fácil en un libro contable donde [cada movimiento se puede revertir con exactitud](/es/blog/disenar-un-libro-contable-multimoneda/).
 - **Cripto:** la confirmación es definitiva, así que el riesgo es el opuesto: acreditar dos veces, o acreditar la orden equivocada. Un crédito que sale dos veces no se puede traer de vuelta.
 
-Dos patrones de ese código, a nivel de arquitectura. Primero, un webhook cuyo pago ya está en el estado final responde éxito de inmediato. Una versión anterior respondía ese caso con un error de validación, lo que solo hacía que el proveedor reintentara. Segundo, cada referencia del proveedor queda asociada a exactamente un pago. Si llega un webhook con una referencia que ya pertenece a otro pago, eso se levanta como alerta, nunca se aplica como un segundo crédito.
+De ahí salen dos patrones. Primero, un webhook cuyo pago ya está en el estado final debería responder éxito de inmediato. Responderlo con un error solo hace que el proveedor reintente. Segundo, cada referencia del proveedor debería quedar asociada a exactamente un pago. Si llega un webhook con una referencia que ya pertenece a otro pago, eso debería levantar una alerta, nunca aplicarse como un segundo crédito.
 
 ## Checklist para webhooks de pago
 
@@ -197,4 +197,4 @@ Dos patrones de ese código, a nivel de arquitectura. Primero, un webhook cuyo p
 - Conciliar contra la API del proveedor de forma programada.
 - Modelar reversos en fiat; proteger contra el doble crédito en cripto.
 
-El hilo común es que decide la base de datos, no el código que la precede. Para ver cómo encaja esto en una plataforma completa, está el [caso de Criptala](/es/work/criptala/).
+El hilo común es que decide la base de datos, no el código que la precede.

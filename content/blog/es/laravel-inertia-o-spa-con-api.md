@@ -1,13 +1,13 @@
 ---
 title: "Inertia o SPA con API en Laravel: cuándo usar cada uno"
-description: "Cuándo Laravel con Inertia y React conviene más que una SPA con API separada, cuándo no, y cómo dos apps en producción usan ambos sin duplicar lógica."
+description: "Cuándo Laravel con Inertia y React conviene más que una SPA con API separada, cuándo no, y cómo usar ambos sin duplicar lógica."
 published: "2026-09-30"
 translations: {"en": "laravel-inertia-vs-spa-api"}
 ---
 
 Elegir entre Inertia o una SPA con API separada en Laravel depende, sobre todo, de quiénes son tus clientes. Si el único cliente es tu propia aplicación web, Laravel con Inertia y React te da una single-page app sin construir, versionar ni asegurar una API para ella. Si además tienes una app móvil, integraciones de terceros o un asistente de IA que se conecta, vas a necesitar una API de todos modos, y la pregunta útil pasa a ser qué partes del sistema deben quedar detrás de ella.
 
-Tomé esa decisión dos veces en producción. [Criptala](/es/work/criptala/), una plataforma de trading y pagos en cripto, tiene su web en Inertia y React y además expone APIs JSON versionadas para una app móvil y para integraciones públicas. [Contamos](/es/work/contamos/), un libro contable compartido multimoneda, es solo Inertia y React, con un servidor MCP como segundo cliente. Los dos mantienen una sola copia de la lógica de negocio. Este artículo explica cómo.
+Tomé esa decisión más de una vez en producción. [Contamos](/es/work/contamos/), un libro contable compartido multimoneda, es solo Inertia y React, con un servidor MCP como segundo cliente. Este artículo explica cuándo con eso alcanza, cuándo una API separada se justifica y cómo mantener una sola copia de la lógica de negocio en cualquiera de los dos casos.
 
 ## Qué es Inertia, en concreto
 
@@ -24,7 +24,7 @@ Lo que dejas de tener es la capa de API entre el frontend y el backend, y justam
 
 Lo caro de una SPA separada rara vez es el código de React. Es la segunda aplicación que terminas manteniendo: una copia en el cliente de tus rutas, tus reglas de permisos, tu validación, y una caché del estado del servidor que hay que invalidar bien. Cada una de esas piezas es un lugar donde el frontend y el backend pueden no estar de acuerdo, y en un sistema que mueve dinero, ese desacuerdo es un bug que un usuario va a encontrar antes que tú.
 
-Con Inertia, el servidor sigue siendo la única fuente de verdad, y React es una capa de presentación encima. Esa es la propiedad que más me importa, y se cumple en los dos proyectos.
+Con Inertia, el servidor sigue siendo la única fuente de verdad, y React es una capa de presentación encima. Esa es la propiedad que más me importa.
 
 ### Las shared props llevan lo que toda página necesita
 
@@ -52,7 +52,7 @@ La prop de permisos es lo que más extrañaría en una SPA. El servidor la calcu
 
 ### Rutas tipadas con Wayfinder
 
-Una objeción común a Inertia es que el frontend arma URLs a partir de strings. Los dos proyectos usan [Laravel Wayfinder](https://github.com/laravel/wayfinder), que genera funciones de TypeScript a partir de tus rutas y controladores. Un formulario en Contamos se ve así:
+Una objeción común a Inertia es que el frontend arma URLs a partir de strings. Contamos usa [Laravel Wayfinder](https://github.com/laravel/wayfinder), que genera funciones de TypeScript a partir de tus rutas y controladores. Un formulario se ve así:
 
 ```tsx
 import teams from "@/routes/identity/teams";
@@ -72,7 +72,7 @@ Los datos flash de Inertia resultan ser una forma limpia de que el servidor le a
 
 ### SSR cuando importa el primer render
 
-Contamos renderiza las páginas en el servidor con el SSR de Inertia, así que las páginas públicas llegan como HTML completo para los buscadores y para el primer render. Criptala tiene el SSR detrás de una variable de entorno, apagado por defecto. Con Inertia el SSR es opcional, y se puede activar después sin reescribir las páginas.
+Contamos renderiza las páginas en el servidor con el SSR de Inertia, así que las páginas públicas llegan como HTML completo para los buscadores y para el primer render. Con Inertia el SSR es opcional, y se puede activar después sin reescribir las páginas.
 
 ## Cuándo conviene una SPA con API separada
 
@@ -87,13 +87,13 @@ Nada de eso obliga a poner tu propia web detrás de la misma API. Esa es la deci
 
 ## Inertia y una API en la misma app de Laravel
 
-Criptala tiene las dos cosas. La web es Inertia y React. Al lado, la misma aplicación de Laravel sirve una API móvil versionada para la app en React Native, una API pública versionada y los endpoints de webhooks. Son archivos de rutas separados, cada uno con sus middleware. La API móvil, por ejemplo, tiene su propia autenticación y su propio manejo de peticiones, y nada de eso corresponde al flujo de sesión de la web.
+Las dos pueden convivir en una misma aplicación. Imagina una app de reservas cuya web es Inertia y React, con una app móvil y socios como clientes adicionales. Al lado de las rutas web, la misma aplicación de Laravel sirve una API móvil versionada y una API pública versionada. Son archivos de rutas separados, cada uno con sus middleware. La API móvil, por ejemplo, tiene autenticación por token y su propio manejo de peticiones, y nada de eso corresponde al flujo de sesión de la web.
 
-Lo que evita que esto se convierta en dos backends es que los controladores son delgados y el dominio es compartido. El cálculo de cotización de una operación es una sola clase de acción. El checkout web, el endpoint de cotización móvil y la API pública la llaman, y cada uno envuelve el resultado en su propio formato: props de Inertia para la web, JSON para las APIs móvil y pública.
+Lo que evita que esto se convierta en dos backends son controladores delgados sobre un dominio compartido. Calcular el precio de una reserva es una sola clase de acción. El checkout web, el endpoint de reservas móvil y la API pública la llaman, y cada uno envuelve el resultado en su propio formato: props de Inertia para la web, JSON para las APIs móvil y pública.
 
 ```
 Controlador Inertia    ─┐
-Controlador Mobile v1  ├──▶  CalculateRatesAction  ──▶  modelos, reglas, base de datos
+Controlador Mobile v1  ├──▶  CalculatePrice  ──▶  modelos, reglas, base de datos
 Controlador Public v1  ─┘
 ```
 
@@ -131,7 +131,7 @@ La acción revierte el saldo, registra la actividad y aplica las reglas. El cont
 
 No es gratis. El frontend queda acoplado a Laravel: llevar la interfaz a otro backend después implica reescribir la capa de datos. Las props se piden en cada visita, así que una página que consulta periódicamente o recibe datos en streaming necesita sus propios endpoints, o usar con cuidado las recargas parciales de Inertia. Cada prop que envías es visible en el código de la página, así que las props deben armarse pensando en el usuario, nunca como un volcado de un modelo. Y un equipo móvil no puede reutilizar nada de eso; recibe la API que construyas para él.
 
-Nada de esto afectó a ninguno de los dos proyectos, porque la decisión nunca fue "Inertia en lugar de una API". Fue Inertia para la web, una API o un servidor MCP donde existe un cliente externo real, y un solo conjunto de acciones debajo de todos.
+Nada de esto es motivo para evitar Inertia, siempre que la decisión nunca sea "Inertia en lugar de una API". Es Inertia para la web, una API o un servidor MCP donde exista un cliente externo real, y un solo conjunto de acciones debajo de todos.
 
 ## Conclusión
 
