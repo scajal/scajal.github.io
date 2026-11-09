@@ -139,7 +139,7 @@ export const es: Content = {
     title: "Blog",
     metaTitle: "Blog — Santiago Cajal",
     description:
-      "Notas de construir plataformas de fintech, cripto y telemetría: dinero en bases de datos, libros contables, LoRaWAN, multi-tenancy e IA dentro del proceso.",
+      "Notas de construir plataformas de fintech, cripto y telemetría: dinero en bases de datos, libros contables, multi-tenancy e IA dentro del proceso.",
     eyebrow: "Escritos",
     sectionTitle: "Notas del trabajo",
     allPosts: "Todos los artículos",

@@ -137,7 +137,7 @@ export const en: Content = {
     title: "Blog",
     metaTitle: "Blog — Santiago Cajal",
     description:
-      "Notes from building fintech, crypto and telemetry platforms: money in databases, ledgers, LoRaWAN, multi-tenancy and AI inside the engineering loop.",
+      "Notes from building fintech, crypto and telemetry platforms: money in databases, ledgers, multi-tenancy and AI inside the engineering loop.",
     eyebrow: "Writing",
     sectionTitle: "Notes from the work",
     allPosts: "All posts",
